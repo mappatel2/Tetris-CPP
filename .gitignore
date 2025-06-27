@@ -30,3 +30,18 @@
 *.exe
 *.out
 *.app
+
+# Build Directories
+build/
+bin/
+obj/
+Debug/
+release/
+
+# IDE Specific
+.idea/
+.vscode/
+*.sln
+*.vcxproj
+*.filters
+

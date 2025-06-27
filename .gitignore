@@ -37,6 +37,7 @@ bin/
 obj/
 Debug/
 release/
+cmake-build-debug/
 
 # IDE Specific
 .idea/

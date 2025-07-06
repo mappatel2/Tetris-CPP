@@ -4,7 +4,19 @@ project(Tetris)
 set(CMAKE_CXX_STANDARD 20)
 add_subdirectory(raylib)
 
-add_executable(Tetris main.cpp)
+add_executable(Tetris main.cpp
+        Entity.h
+        Game.cpp
+        Game.h
+        GameConstants.h
+        Board.cpp
+        Board.h
+        Cell.cpp
+        Cell.h
+        Block.cpp
+        Block.h
+        InputHandler.cpp
+        InputHandler.h)
 
 target_include_directories(Tetris PRIVATE raylib/src)
 target_link_libraries(Tetris PRIVATE raylib_static)

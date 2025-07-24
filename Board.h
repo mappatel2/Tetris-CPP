@@ -10,19 +10,16 @@ namespace Tetris {
 
     class Board : public Entity{
 
-    private:
-
-        static constexpr int VISIBLE_CELL_START_ROW = 4;
-        static constexpr int VISIBLE_CELL_END_ROW = 23;
-        static constexpr int HIDDEN_CELL_START_ROW = 0;
-        static constexpr int HIDDEN_CELL_END_ROW = 3;
-
-        static constexpr int VISIBLE_CELL_START_COLUMN = 0;
-        static constexpr int VISIBLE_CELL_END_COLUMN = 9;
+    public:
 
         static constexpr int ROW_COUNT = 24;
         static constexpr int COLUMN_COUNT = 10;
+        static constexpr int VISIBLE_CELL_START_ROW = 4;
+        static constexpr int VISIBLE_CELL_START_COLUMN = 0;
 
+    private:
+
+        bool m_Debug = true;
         std::vector<std::vector<std::unique_ptr<Cell>>> m_Cells;
 
     public:
@@ -32,6 +29,16 @@ namespace Tetris {
         void Draw() override;
         ~Board() override;
 
+        bool CheckIfOccupied(const Vector2Int& position) const;
+        void SetCellAsOccupied(const Vector2Int& position);
+
+        static int GetRowPositionFromIndex(int rowIndex);
+        static int GetColumnPositionFromIndex(int colIndex);
+        static int GetRowIndexFromPosition(int rowPosition);
+        static int GetColumnIndexFromPosition(int columnPosition);
+        static void ClampPosition(Vector2Int& position);
+        static bool CheckIfValidRowIndex(int rowIndex);
+        static bool CheckIfValidColumnIndex(int colIndex);
     };
 }
 

@@ -46,4 +46,8 @@ namespace Tetris {
             m_HasMovedOnDasExpiry = false;
         }
     }
+
+    bool MoveAction::CanExecute() const {
+        return m_CanExecute;
+    }
 }

@@ -2,14 +2,10 @@
 #include <iostream>
 
 namespace Tetris {
-    Cell::Cell(const bool isVisible
-        , const int xPosition, const int yPosition) {
-        m_IsVisible = isVisible;
-        m_OutlineColorType = m_IsVisible ? GameConstants::ColorType::White : GameConstants::ColorType::Transparent;
-        m_OutlineColor = GetCellColor(m_OutlineColorType);
+    Cell::Cell(const int xPosition, const int yPosition) {
+        m_OutlineColor = GetCellColor(GameConstants::ColorType::White);
         m_IsOccupied = false;
-        m_XPosition = xPosition;
-        m_YPosition = yPosition;
+        m_Position = Vector2Int{xPosition, yPosition};
     }
 
     void Cell::Update() {
@@ -17,23 +13,21 @@ namespace Tetris {
     }
 
     void Cell::Draw() {
-        DrawRectangleLines(m_XPosition, m_YPosition,
-            GameConstants::CELL_SIZE, GameConstants::CELL_SIZE, m_OutlineColor);
         if(m_IsOccupied) {
-            DrawRectangleRec(m_Rect, m_RectColor);
+            DrawRectangle(m_Position.x, m_Position.y,
+                GameConstants::CELL_SIZE, GameConstants::CELL_SIZE, m_RectColor);
         }
+        DrawRectangleLines(m_Position.x, m_Position.y,
+            GameConstants::CELL_SIZE, GameConstants::CELL_SIZE, m_OutlineColor);
     }
 
-    void Cell::SetOccupied(GameConstants::ColorType occupiedColorType) {
+    void Cell::SetOccupied(const GameConstants::ColorType occupiedColorType) {
         m_RectColorType = occupiedColorType;
         m_RectColor = GetCellColor(m_RectColorType);
         m_IsOccupied = true;
-        m_Rect = Rectangle(static_cast<float>(m_XPosition), static_cast<float>(m_YPosition),
-            GameConstants::CELL_SIZE, GameConstants::CELL_SIZE);
     }
 
-    Cell::~Cell() {
-        std::cout << "Cell Destroyed\n";
+    bool Cell::IsOccupied() const {
+        return m_IsOccupied;
     }
-
 }

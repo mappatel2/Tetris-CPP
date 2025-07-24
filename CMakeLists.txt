@@ -18,7 +18,8 @@ add_executable(Tetris main.cpp
         InputHandler.cpp
         InputHandler.h
         MoveAction.cpp
-        MoveAction.h)
+        MoveAction.h
+        Vector2Int.h)
 
 target_include_directories(Tetris PRIVATE raylib/src)
 target_link_libraries(Tetris PRIVATE raylib_static)

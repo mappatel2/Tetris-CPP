@@ -1,11 +1,10 @@
-#ifndef MOVEACTION_H
-#define MOVEACTION_H
+#pragma once
 
 namespace Tetris {
     class MoveAction {
     private:
-        static constexpr float DAS_DELAY = 0.167F;
-        static constexpr float AUTO_REPEAT_INTERVAL = 0.033F;
+        static constexpr float DAS_DELAY = 0.334F;
+        static constexpr float AUTO_REPEAT_INTERVAL = 0.066F;
 
         int m_KeyValue;
         bool m_CanExecute;
@@ -16,14 +15,10 @@ namespace Tetris {
     public:
 
         MoveAction() = delete;
-        MoveAction(int keyValue);
+        explicit MoveAction(int keyValue);
         void Update();
         ~MoveAction() = default;
 
-        bool CanExecute() const {
-            return m_CanExecute;
-        }
+        bool CanExecute() const;
     };
 };
-
-#endif //MOVEACTION_H

@@ -10,7 +10,7 @@ namespace Tetris::GameConstants {
 
     constexpr int CELL_SIZE = 40;
 
-    constexpr int TOP_PADDING = CELL_SIZE * 3;
+    constexpr int TOP_PADDING = -(CELL_SIZE);
     constexpr int LEFT_PADDING = CELL_SIZE * 2;
 
     enum class ColorType {
@@ -25,6 +25,14 @@ namespace Tetris::GameConstants {
         Purple,
         Red,
     };
+
+    inline int GetPositionFromIndex(const int index) {
+        return index * CELL_SIZE;
+    }
+
+    inline int GetIndexFromPosition(const int position) {
+        return position / CELL_SIZE;
+    }
 
     inline Color GetCellColor(const ColorType colorType) {
         switch(colorType) {

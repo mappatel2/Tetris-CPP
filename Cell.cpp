@@ -21,13 +21,17 @@ namespace Tetris {
             GameConstants::CELL_SIZE, GameConstants::CELL_SIZE, m_OutlineColor);
     }
 
-    void Cell::SetOccupied(const GameConstants::ColorType occupiedColorType) {
+    void Cell::SetOccupiedStatus(bool status, const GameConstants::ColorType occupiedColorType) {
         m_RectColorType = occupiedColorType;
         m_RectColor = GetCellColor(m_RectColorType);
-        m_IsOccupied = true;
+        m_IsOccupied = status;
     }
 
-    bool Cell::IsOccupied() const {
+    bool Cell::GetOccupiedStatus() const {
         return m_IsOccupied;
+    }
+
+    GameConstants::ColorType Cell::GetRectColorType() const {
+        return m_RectColorType;
     }
 }

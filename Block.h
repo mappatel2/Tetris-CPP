@@ -1,11 +1,10 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-#include <memory>
-
 #include "Entity.h"
 #include "Vector2Int.h"
 #include "raylib.h"
+#include <array>
 #include "GameConstants.h"
 #include <iostream>
 
@@ -16,21 +15,21 @@ namespace Tetris {
 
         float m_MoveDownTimer = 0.f;
         float m_HasLandedTimer = 0.f;
-        const float m_HasLandedInterval = 2.F;
+        const float m_HasLandedInterval = 0.7F;
         const float m_MoveDownInterval = 0.8f;
 
-        Vector2Int m_Position {};
-        Vector2Int m_PossibleNextPosition {};
+        std::array<Vector2Int, 4> m_PositionArr {};
+        std::array<Vector2Int, 4> m_PossibleNextPositionArr {};
+        std::array<bool, 4> m_IsVisibleArr {};
+        std::array<int, 4> m_RowIndexArr {};
+        std::array<int, 4> m_ColumnIndexArr {};
+
         Color m_Color {};
 
         bool m_HasMovedX = false;
         bool m_HasMovedY = false;
         bool m_HasLanded = false;
         bool m_OccupyCellOnBoard = false;
-        bool m_IsVisible = false;
-
-        int m_RowIndex = 0;
-        int m_ColumnIndex = 0;
 
     public:
 
@@ -42,15 +41,18 @@ namespace Tetris {
         void UpdateNextPosition(const Vector2Int& inputVector);
         void UpdatePosition();
 
-        Vector2Int& GetPossibleNextPosition();
-        const Vector2Int& GetPosition() const;
+        std::array<Vector2Int, 4>& GetPossibleNextPositionArr();
+        const std::array<Vector2Int, 4>& GetPositionArr() const;
         void SetHasLanded(bool hasLanded);
         bool HasMoved() const;
         bool HasOccupiedCellOnBoard() const;
+        void Reset(const int& xPosition, const int& yPosition, const Color& color);
 
     private:
 
         void UpdateIndex();
+        void ResetTimers();
+        void ResetFlags();
     };
 }
 

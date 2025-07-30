@@ -16,6 +16,8 @@ namespace Tetris {
         m_OutlineXPosition = Board::GetColumnPositionFromIndex(-1);
         m_OutlineHeight = Board::GetRowPositionFromIndex(Board::ROW_COUNT + 1) - m_OutlineYPosition;
         m_OutlineWidth = Board::GetColumnPositionFromIndex(Board::COLUMN_COUNT + 1) - m_OutlineXPosition;
+
+        m_CanSpawn = false;
     }
 
     void Game::Run() {
@@ -24,7 +26,39 @@ namespace Tetris {
     }
 
     void Game::Update() {
+        if(m_CanSpawn) {
+            if(m_SpawnTimer >= m_SpawnInterval) {
+                m_SpawnTimer = 0.F;
+                m_CanSpawn = false;
 
+                int xPosition = Board::GetColumnPositionFromIndex(1);
+                int yPosition = Board::GetRowPositionFromIndex(2);
+                const Color redColor = GetCellColor(GameConstants::ColorType::Red);
+                m_Block->Reset(xPosition, yPosition, redColor);
+            }
+            else {
+                m_SpawnTimer += GetFrameTime();
+            }
+
+            return;
+        }
+
+        UpdateInput();
+        UpdateBlock();
+        UpdateBoard();
+    }
+
+    void Game::Render() {
+        DrawRectangleLines(m_OutlineXPosition, m_OutlineYPosition, m_OutlineWidth, m_OutlineHeight, RAYWHITE);
+        m_Board->Draw();
+        m_Block->Draw();
+    }
+
+    void Game::Stop() {
+        std::cout << "Stopping Game, Call Destroy Functions for Entities\n";
+    }
+
+    void Game::UpdateInput() {
         m_InputVector.x = 0;
         m_InputVector.y = 0;
 
@@ -39,7 +73,9 @@ namespace Tetris {
         if(m_InputHandler->CanMoveDown()) {
             m_InputVector.y = 1;
         }
+    }
 
+    void Game::UpdateBlock() {
         m_Block->Update();
         if(m_InputVector.x != 0 || m_InputVector.y != 0) {
             m_Block->UpdateNextPosition(m_InputVector);
@@ -49,48 +85,79 @@ namespace Tetris {
             UpdateBlockPosition();
             SetBlockHasLandedStatus();
         }
+    }
 
+    void Game::UpdateBoard() {
         if(m_Block->HasOccupiedCellOnBoard()) {
-            m_Board->SetCellAsOccupied(m_Block->GetPosition());
-            // std::cout << "Cell Occupied on Board\n";
+            const std::array<Vector2Int, 4>& blockPositionArr = m_Block->GetPositionArr();
+            for(int i = 0; i < 4; i++) {
+                m_Board->SetCellAsOccupied(blockPositionArr[i]);
+            }
+            m_Board->ClearRows();
+            m_CanSpawn = true;
         }
 
         m_Board->Update();
     }
 
-    void Game::Render() {
-        DrawRectangleLines(m_OutlineXPosition, m_OutlineYPosition, m_OutlineWidth, m_OutlineHeight, RAYWHITE);
-        m_Board->Draw();
-        m_Block->Draw();
-    }
+    void Game::UpdateBlockPosition() {
+        std::array<Vector2Int, 4>& possibleNextPositionArr = m_Block->GetPossibleNextPositionArr();
+        m_RowClampOffset = 0;
+        m_ColumnClampOffset = 0;
+        for(int i = 0; i < 4; i++) {
+            int tempOffset = Board::RowClampOffset(possibleNextPositionArr[i]);
+            if(tempOffset != 0) {
+                m_RowClampOffset = tempOffset;
+            }
+            tempOffset = Board::ColumnClampOffset(possibleNextPositionArr[i]);
+            if(tempOffset != 0) {
+                m_ColumnClampOffset = tempOffset;
+            }
+        }
+        for(int i = 0; i < 4; i++) {
+            possibleNextPositionArr[i].y += m_RowClampOffset * GameConstants::CELL_SIZE;
+            possibleNextPositionArr[i].x += m_ColumnClampOffset * GameConstants::CELL_SIZE;
+        }
 
-    void Game::Stop() {
-        std::cout << "Stopping Game, Call Destroy Functions for Entities\n";
-    }
-
-    void Game::UpdateBlockPosition() const {
-        Vector2Int& possibleNextPosition = m_Block->GetPossibleNextPosition();
-        Board::ClampPosition(possibleNextPosition);
-        if(!m_Board->CheckIfOccupied(possibleNextPosition)) {
+        bool isNextPositionOccupied = false;
+        for(int i = 0; i < 4; i++) {
+            if(m_Board->CheckIfOccupied(possibleNextPositionArr[i])) {
+                isNextPositionOccupied = true;
+                break;
+            }
+        }
+        if(!isNextPositionOccupied) {
             m_Block->UpdatePosition();
         }
     }
 
     void Game::SetBlockHasLandedStatus() {
-        const Vector2Int& blockPosition = m_Block->GetPosition();
-        int rowIndex = Board::GetRowIndexFromPosition(blockPosition.y);
-        int nextRowIndex = rowIndex + 1;
 
-        //Check If Next Row is Out of Bounds
-        if(!Board::CheckIfValidRowIndex(nextRowIndex)) {
-            m_Block->SetHasLanded(true);
-            return;
+        //We First Check if The Next Row Is Valid Or Not
+        const std::array<Vector2Int, 4>& blockPositionArr = m_Block->GetPositionArr();
+        for(int i = 0; i < 4; i++) {
+            int rowIndex = Board::GetRowIndexFromPosition(blockPositionArr[i].y);
+            int nextRowIndex = rowIndex + 1;
+
+            if(!Board::CheckIfValidRowIndex(nextRowIndex)) {
+                m_Block->SetHasLanded(true);
+                return;
+            }
         }
 
-        int rowPosition = Board::GetRowPositionFromIndex(nextRowIndex);
-        int colPosition = blockPosition.x;
-        m_TempPosition.Update(colPosition, rowPosition);
-        bool isOccupied = m_Board->CheckIfOccupied(m_TempPosition);
-        m_Block->SetHasLanded(isOccupied);
+        //We Check If Block On the Next Row Is Occupied Or Not
+        for(int i = 0; i < 4; i++) {
+            int rowIndex = Board::GetRowIndexFromPosition(blockPositionArr[i].y);
+            int nextRowIndex = rowIndex + 1;
+            int rowPosition = Board::GetRowPositionFromIndex(nextRowIndex);
+            int colPosition = blockPositionArr[i].x;
+            m_TempPosition.Update(colPosition, rowPosition);
+            if(m_Board->CheckIfOccupied(m_TempPosition)) {
+                m_Block->SetHasLanded(true);
+                return;
+            }
+        }
+
+        m_Block->SetHasLanded(false);
     }
 }

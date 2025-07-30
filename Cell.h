@@ -31,8 +31,9 @@ namespace Tetris {
 
     public:
 
-        void SetOccupied(GameConstants::ColorType occupiedColorType);
-        bool IsOccupied() const;
+        void SetOccupiedStatus(bool status, GameConstants::ColorType occupiedColorType);
+        bool GetOccupiedStatus() const;
+        GameConstants::ColorType GetRectColorType() const;
     };
 }
 

@@ -15,14 +15,17 @@ namespace Tetris {
         Vector2Int m_InputVector{};
         Vector2Int m_TempPosition{};
 
-        int m_Left = 0;
-        int m_Right = 0;
-        int m_Down = 0;
-
         int m_OutlineXPosition;
         int m_OutlineYPosition;
         int m_OutlineWidth;
         int m_OutlineHeight;
+        int m_RowClampOffset;
+        int m_ColumnClampOffset;
+
+        bool m_CanSpawn = false;
+
+        float m_SpawnTimer = 0.F;
+        const float m_SpawnInterval = 0.5F;
 
     public:
         Game();
@@ -32,7 +35,11 @@ namespace Tetris {
         void Stop();
 
     private:
-        void UpdateBlockPosition() const;
+        void UpdateBlockPosition();
         void SetBlockHasLandedStatus();
+
+        void UpdateInput();
+        void UpdateBlock();
+        void UpdateBoard();
     };
 }

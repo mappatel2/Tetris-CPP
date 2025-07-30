@@ -31,14 +31,20 @@ namespace Tetris {
 
         bool CheckIfOccupied(const Vector2Int& position) const;
         void SetCellAsOccupied(const Vector2Int& position);
+        void ClearRows() const ;
 
         static int GetRowPositionFromIndex(int rowIndex);
         static int GetColumnPositionFromIndex(int colIndex);
         static int GetRowIndexFromPosition(int rowPosition);
         static int GetColumnIndexFromPosition(int columnPosition);
-        static void ClampPosition(Vector2Int& position);
+
+        static int RowClampOffset(const Vector2Int& position);
+        static int ColumnClampOffset(const Vector2Int& position);
         static bool CheckIfValidRowIndex(int rowIndex);
         static bool CheckIfValidColumnIndex(int colIndex);
+
+    private:
+        bool CheckIfRowIsFull(int rowIndex) const;
     };
 }
 

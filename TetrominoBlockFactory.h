@@ -1,0 +1,6 @@
+
+namespace Tetris{
+    class TetrominoBlockFactory {
+
+    };
+}

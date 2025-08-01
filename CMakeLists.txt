@@ -19,7 +19,11 @@ add_executable(Tetris main.cpp
         InputHandler.h
         MoveAction.cpp
         MoveAction.h
-        Vector2Int.h)
+        Vector2Int.h
+        TetrominoBlock.cpp
+        TetrominoBlock.h
+        TetrominoBlockFactory.h
+        TetrominoBlockFactory.cpp)
 
 target_include_directories(Tetris PRIVATE raylib/src)
 target_link_libraries(Tetris PRIVATE raylib_static)

@@ -20,10 +20,24 @@ add_executable(Tetris main.cpp
         MoveAction.cpp
         MoveAction.h
         Vector2Int.h
-        TetrominoBlock.cpp
-        TetrominoBlock.h
-        TetrominoBlockFactory.h
-        TetrominoBlockFactory.cpp)
+        TetrisBlock.cpp
+        TetrisBlock.h
+        TetrisBlockFactory.h
+        TetrisBlockFactory.cpp
+        Tetris_Blocks/ITetrisBlock.cpp
+        Tetris_Blocks/ITetrisBlock.h
+        Tetris_Blocks/OTetrisBlock.cpp
+        Tetris_Blocks/OTetrisBlock.h
+        Tetris_Blocks/TTetrisBlock.cpp
+        Tetris_Blocks/TTetrisBlock.h
+        Tetris_Blocks/STetrisBlock.cpp
+        Tetris_Blocks/STetrisBlock.h
+        Tetris_Blocks/ZTetrisBlock.cpp
+        Tetris_Blocks/ZTetrisBlock.h
+        Tetris_Blocks/LTetrisBlock.cpp
+        Tetris_Blocks/LTetrisBlock.h
+        Tetris_Blocks/JTetrisBlock.cpp
+        Tetris_Blocks/JTetrisBlock.h)
 
 target_include_directories(Tetris PRIVATE raylib/src)
 target_link_libraries(Tetris PRIVATE raylib_static)

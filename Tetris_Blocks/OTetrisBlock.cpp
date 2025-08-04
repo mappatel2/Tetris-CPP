@@ -10,7 +10,7 @@ namespace Tetris {
                 {false, false, false, false}
             }
         };
-        m_ColorType = GameConstants::ColorType::Yellow;
+        m_ColorType = GameConstants::ColorType::OBlock;
     }
 
 }

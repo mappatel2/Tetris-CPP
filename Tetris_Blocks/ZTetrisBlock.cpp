@@ -28,6 +28,6 @@ namespace Tetris {
                 {false, false, false, false}
             }
         };
-        m_ColorType = GameConstants::ColorType::Red;
+        m_ColorType = GameConstants::ColorType::ZBlock;
     }
 }

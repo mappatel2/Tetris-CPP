@@ -30,6 +30,6 @@ namespace Tetris {
             }
         };
 
-        m_ColorType = GameConstants::ColorType::Cyan;
+        m_ColorType = GameConstants::ColorType::IBlock;
     }
 }

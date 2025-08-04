@@ -23,7 +23,6 @@ add_executable(Tetris main.cpp
         TetrisBlock.cpp
         TetrisBlock.h
         TetrisBlockFactory.h
-        TetrisBlockFactory.cpp
         Tetris_Blocks/ITetrisBlock.cpp
         Tetris_Blocks/ITetrisBlock.h
         Tetris_Blocks/OTetrisBlock.cpp
@@ -37,7 +36,16 @@ add_executable(Tetris main.cpp
         Tetris_Blocks/LTetrisBlock.cpp
         Tetris_Blocks/LTetrisBlock.h
         Tetris_Blocks/JTetrisBlock.cpp
-        Tetris_Blocks/JTetrisBlock.h)
+        Tetris_Blocks/JTetrisBlock.h
+        Tetris_Blocks/ITetrisBlockFactory.h
+        Tetris_Blocks/JTetrisBlockFactory.h
+        Tetris_Blocks/LTetrisBlockFactory.h
+        Tetris_Blocks/OTetrisBlockFactory.h
+        Tetris_Blocks/STetrisBlockFactory.h
+        Tetris_Blocks/TTetrisBlockFactory.h
+        Tetris_Blocks/ZTetrisBlockFactory.h
+        BlockFactoryManager.cpp
+        BlockFactoryManager.h)
 
 target_include_directories(Tetris PRIVATE raylib/src)
 target_link_libraries(Tetris PRIVATE raylib_static)

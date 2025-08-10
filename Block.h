@@ -5,8 +5,8 @@
 #include "Vector2Int.h"
 #include "raylib.h"
 #include <array>
-#include "GameConstants.h"
-#include <iostream>
+#include <memory>
+#include "TetrisBlock.h"
 
 namespace Tetris {
     class Block : public Entity {
@@ -18,6 +18,7 @@ namespace Tetris {
         const float m_HasLandedInterval = 0.7F;
         const float m_MoveDownInterval = 0.8f;
 
+        Vector2Int m_CornerPosition = {};
         std::array<Vector2Int, 4> m_PositionArr {};
         std::array<Vector2Int, 4> m_PossibleNextPositionArr {};
         std::array<bool, 4> m_IsVisibleArr {};
@@ -25,6 +26,7 @@ namespace Tetris {
         std::array<int, 4> m_ColumnIndexArr {};
 
         Color m_Color {};
+        std::unique_ptr<TetrisBlock> m_TetrisBlock = nullptr;
 
         bool m_HasMovedX = false;
         bool m_HasMovedY = false;
@@ -33,7 +35,7 @@ namespace Tetris {
 
     public:
 
-        Block(const int& xPosition,const int& yPosition,const Color& color);
+        Block() = default;
         void Update() override;
         void Draw() override;
         ~Block() override = default;
@@ -46,7 +48,8 @@ namespace Tetris {
         void SetHasLanded(bool hasLanded);
         bool HasMoved() const;
         bool HasOccupiedCellOnBoard() const;
-        void Reset(const int& xPosition, const int& yPosition, const Color& color);
+
+        void Init(std::unique_ptr<TetrisBlock> tetrisBlock, const int& xPosition, const int& yPosition);
 
     private:
 

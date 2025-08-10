@@ -1,7 +1,10 @@
 #pragma once
 
+#include "raylib.h"
+
 #include <memory>
 #include <array>
+#include <algorithm>
 
 #include "Tetris_Blocks/ITetrisBlockFactory.h"
 #include "Tetris_Blocks/JTetrisBlockFactory.h"
@@ -45,9 +48,14 @@ namespace Tetris {
         };
 
         [[nodiscard]] std::unique_ptr<TetrisBlock> GetTetrisBlock(const BlockType& blockType) const;
+        void ShuffleTetrisBlockBag();
+        std::array<int, 7> m_Bag = {0, 1, 2, 3, 4, 5, 6};
+
+        int m_CurrentBlockIndex = 0;
 
     public:
         BlockFactoryManager();
+        [[nodiscard]] std::unique_ptr<TetrisBlock> GetTetrisBlock();
         ~BlockFactoryManager();
     };
 }

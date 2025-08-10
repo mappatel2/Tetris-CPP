@@ -10,6 +10,22 @@ namespace Tetris {
         m_SBlockFactory = std::make_unique<STetrisBlockFactory>();
         m_TBlockFactory = std::make_unique<TTetrisBlockFactory>();
         m_ZBlockFactory = std::make_unique<ZTetrisBlockFactory>();
+        ShuffleTetrisBlockBag();
+    }
+
+    void BlockFactoryManager::ShuffleTetrisBlockBag() {
+        m_CurrentBlockIndex = 0;
+        for(int i = m_Bag.size() - 1; i >= 0; i--) {
+            int randomIndex = GetRandomValue(0, i);
+            std::swap(m_Bag[i], m_Bag[randomIndex]);
+        }
+    }
+
+    std::unique_ptr<TetrisBlock> BlockFactoryManager::GetTetrisBlock() {
+        if(m_CurrentBlockIndex >= m_Bag.size()) {
+            ShuffleTetrisBlockBag();
+        }
+        return GetTetrisBlock(m_BlockTypesArr[m_Bag[m_CurrentBlockIndex++]]);
     }
 
     std::unique_ptr<TetrisBlock> BlockFactoryManager::GetTetrisBlock(const BlockType& blockType) const {

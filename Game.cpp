@@ -4,13 +4,11 @@
 
 namespace Tetris {
     Game::Game() {
+
         m_Board = std::make_unique<Board>();
         m_InputHandler = std::make_unique<InputHandler>();
-
-        int xPosition = Board::GetColumnPositionFromIndex(1);
-        int yPosition = Board::GetRowPositionFromIndex(2);
-        const Color redColor = GetCellColor(GameConstants::ColorType::Red);
-        m_Block = std::make_unique<Block>(xPosition, yPosition, redColor);
+        m_BlockFactoryManager = std::make_unique<BlockFactoryManager>();
+        InitBlock();
 
         m_OutlineYPosition = Board::GetRowPositionFromIndex(Board::VISIBLE_CELL_START_ROW-1);
         m_OutlineXPosition = Board::GetColumnPositionFromIndex(-1);
@@ -30,11 +28,7 @@ namespace Tetris {
             if(m_SpawnTimer >= m_SpawnInterval) {
                 m_SpawnTimer = 0.F;
                 m_CanSpawn = false;
-
-                int xPosition = Board::GetColumnPositionFromIndex(1);
-                int yPosition = Board::GetRowPositionFromIndex(2);
-                const Color redColor = GetCellColor(GameConstants::ColorType::Red);
-                m_Block->Reset(xPosition, yPosition, redColor);
+                InitBlock();
             }
             else {
                 m_SpawnTimer += GetFrameTime();
@@ -159,5 +153,15 @@ namespace Tetris {
         }
 
         m_Block->SetHasLanded(false);
+    }
+
+    void Game::InitBlock() {
+        if(m_Block == nullptr) {
+            m_Block = std::make_unique<Block>();
+        }
+        int xPosition = Board::GetColumnPositionFromIndex(1);
+        int yPosition = Board::GetRowPositionFromIndex(2);
+        std::unique_ptr<TetrisBlock> tetrisBlock = m_BlockFactoryManager->GetTetrisBlock();
+        m_Block->Init(std::move(tetrisBlock), xPosition, yPosition);
     }
 }

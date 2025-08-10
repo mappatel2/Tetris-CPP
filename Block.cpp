@@ -1,10 +1,29 @@
 #include "Block.h"
-
+#include "GameConstants.h"
+#include <iostream>
 #include "Board.h"
 
 namespace Tetris {
-    Block::Block(const int& xPosition, const int& yPosition, const Color& color) {
-        Reset(xPosition, yPosition, color);
+    void Block::Init(std::unique_ptr<TetrisBlock> tetrisBlock, const int& xPosition, const int& yPosition) {
+
+        //We Release Pointer For Previous Tetris Block As We Assign a New One
+        if(m_TetrisBlock != nullptr) m_TetrisBlock.reset();
+        m_TetrisBlock = std::move(tetrisBlock);
+        m_CornerPosition.Update(xPosition, yPosition);
+        m_TetrisBlock->GetCurrentBlockPositions(m_CornerPosition, m_PositionArr);
+        int index = 0;
+        for(int y = 0; y < 2; y++) {
+            for(int x = 0; x < 2; x++) {
+                m_PossibleNextPositionArr[index] = m_PositionArr[index];
+                index++;
+            }
+        }
+        const GameConstants::ColorType& blockColorType = m_TetrisBlock->GetColorType();
+        m_Color = GetCellColor(blockColorType);
+
+        ResetFlags();
+        ResetTimers();
+        UpdateIndex();
     }
 
     void Block::Update() {
@@ -99,21 +118,6 @@ namespace Tetris {
                 m_IsVisibleArr[i] = m_RowIndexArr[i] >= Board::VISIBLE_CELL_START_ROW;
             }
         }
-    }
-
-    void Block::Reset(const int& xPosition, const int& yPosition, const Color& color) {
-        int index = 0;
-        for(int y = 0; y < 2; y++) {
-            for(int x = 0; x < 2; x++) {
-                m_PositionArr[index] = Vector2Int {xPosition + (x * GameConstants::CELL_SIZE), yPosition + (y * GameConstants::CELL_SIZE)};
-                m_PossibleNextPositionArr[index] = m_PositionArr[index];
-                index++;
-            }
-        }
-        m_Color = Color(color.r, color.g, color.b, color.a);
-        ResetFlags();
-        ResetTimers();
-        UpdateIndex();
     }
 
     void Block::ResetTimers() {

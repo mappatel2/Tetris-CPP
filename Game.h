@@ -3,6 +3,7 @@
 #include "Board.h"
 #include "InputHandler.h"
 #include "Block.h"
+#include "BlockFactoryManager.h"
 
 namespace Tetris {
     class Game {
@@ -11,6 +12,7 @@ namespace Tetris {
         std::unique_ptr<Board> m_Board;
         std::unique_ptr<InputHandler> m_InputHandler;
         std::unique_ptr<Block> m_Block;
+        std::unique_ptr<BlockFactoryManager> m_BlockFactoryManager;
 
         Vector2Int m_InputVector{};
         Vector2Int m_TempPosition{};
@@ -41,5 +43,6 @@ namespace Tetris {
         void UpdateInput();
         void UpdateBlock();
         void UpdateBoard();
+        void InitBlock();
     };
 }

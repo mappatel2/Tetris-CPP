@@ -8,8 +8,8 @@ namespace Tetris {
         for(int i = 0; i < 4; i++) {
             for(int j = 0; j < 4; j++) {
                 if(m_RotationMatrixArr[m_CurrentRotationMatrixIndex][i][j]) {
-                    blockPosition.x += GameConstants::CELL_SIZE * i;
-                    blockPosition.y += GameConstants::CELL_SIZE * j;
+                    blockPosition.x = cornerPosition.x + GameConstants::CELL_SIZE * j;
+                    blockPosition.y = cornerPosition.y + GameConstants::CELL_SIZE * i;
                     blockPositions[index].Update(blockPosition);
                     index++;
                     if(index == 4) return;

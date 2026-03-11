@@ -30,7 +30,7 @@ namespace Tetris {
         ~Board() override;
 
         bool CheckIfOccupied(const Vector2Int& position) const;
-        void SetCellAsOccupied(const Vector2Int& position);
+        void SetCellAsOccupied(const Vector2Int& position, Graphics::ColorType colorType) const;
         void ClearRows() const ;
 
         static int GetRowPositionFromIndex(int rowIndex);

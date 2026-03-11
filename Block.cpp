@@ -1,5 +1,5 @@
 #include "Block.h"
-#include "GameConstants.h"
+#include "TetrisCore.h"
 #include <iostream>
 #include "Board.h"
 
@@ -18,7 +18,7 @@ namespace Tetris {
                 index++;
             }
         }
-        const GameConstants::ColorType& blockColorType = m_TetrisBlock->GetColorType();
+        const Graphics::ColorType& blockColorType = m_TetrisBlock->GetColorType();
         m_Color = GetCellColor(blockColorType);
 
         ResetFlags();
@@ -35,7 +35,7 @@ namespace Tetris {
         if(m_MoveDownTimer <= 0.f) {
             m_MoveDownTimer = m_MoveDownInterval;
             for(int i = 0; i < 4; i++) {
-                m_PossibleNextPositionArr[i].Update(m_PositionArr[i].x, m_PositionArr[i].y + GameConstants::CELL_SIZE);
+                m_PossibleNextPositionArr[i].Update(m_PositionArr[i].x, m_PositionArr[i].y + Config::CELL_SIZE);
             }
             m_HasMovedY = true;
         }
@@ -58,8 +58,8 @@ namespace Tetris {
     void Block::UpdateNextPosition(const Vector2Int& inputVector) {
         if(m_OccupyCellOnBoard) return;
         for(int i = 0; i < 4; i++) {
-            m_PossibleNextPositionArr[i].y = m_PositionArr[i].y + (GameConstants::CELL_SIZE * inputVector.y);
-            m_PossibleNextPositionArr[i].x = m_PositionArr[i].x + (GameConstants::CELL_SIZE * inputVector.x);
+            m_PossibleNextPositionArr[i].y = m_PositionArr[i].y + (Config::CELL_SIZE * inputVector.y);
+            m_PossibleNextPositionArr[i].x = m_PositionArr[i].x + (Config::CELL_SIZE * inputVector.x);
         }
 
         if(inputVector.x != 0) m_HasMovedX = true;
@@ -79,8 +79,8 @@ namespace Tetris {
 
         for(int i = 0; i < 4; i++) {
             if(!m_IsVisibleArr[i]) continue;
-            DrawRectangle(m_PositionArr[i].x, m_PositionArr[i].y, GameConstants::CELL_SIZE, GameConstants::CELL_SIZE, m_Color);
-            DrawRectangleLines(m_PositionArr[i].x, m_PositionArr[i].y, GameConstants::CELL_SIZE, GameConstants::CELL_SIZE, RAYWHITE);
+            DrawRectangle(m_PositionArr[i].x, m_PositionArr[i].y, Config::CELL_SIZE, Config::CELL_SIZE, m_Color);
+            DrawRectangleLines(m_PositionArr[i].x, m_PositionArr[i].y, Config::CELL_SIZE, Config::CELL_SIZE, RAYWHITE);
         }
     }
 
@@ -118,6 +118,10 @@ namespace Tetris {
                 m_IsVisibleArr[i] = m_RowIndexArr[i] >= Board::VISIBLE_CELL_START_ROW;
             }
         }
+    }
+
+    Graphics::ColorType Block::GetColorType() const {
+        return m_TetrisBlock->GetColorType();
     }
 
     void Block::ResetTimers() {

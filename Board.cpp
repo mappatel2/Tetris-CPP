@@ -30,27 +30,13 @@ namespace Tetris {
         }
     }
 
-    void Board::SetCellAsOccupied(const Vector2Int& position) {
+    void Board::SetCellAsOccupied(const Vector2Int& position, Graphics::ColorType colorType) const {
         int rowIndex = GetRowIndexFromPosition(position.y);
         int colIndex = GetColumnIndexFromPosition(position.x);
-        m_Cells[rowIndex][colIndex]->SetOccupiedStatus(true, GameConstants::ColorType::Green);
+        m_Cells[rowIndex][colIndex]->SetOccupiedStatus(true, colorType);
     }
 
-    int Board::GetRowPositionFromIndex(const int rowIndex) {
-        return GameConstants::GetPositionFromIndex(rowIndex) + GameConstants::TOP_PADDING;
-    }
 
-    int Board::GetColumnPositionFromIndex(const int colIndex) {
-        return GameConstants::GetPositionFromIndex(colIndex) + GameConstants::LEFT_PADDING;
-    }
-
-    int Board::GetRowIndexFromPosition(const int rowPosition) {
-        return GameConstants::GetIndexFromPosition(rowPosition - GameConstants::TOP_PADDING);
-    }
-
-    int Board::GetColumnIndexFromPosition(const int columnPosition) {
-        return GameConstants::GetIndexFromPosition(columnPosition - GameConstants::LEFT_PADDING);
-    }
 
     int Board::RowClampOffset(const Vector2Int& position) {
         int rowIndex = GetRowIndexFromPosition(position.y);
@@ -112,7 +98,7 @@ namespace Tetris {
             bool isRowFull = CheckIfRowIsFull(i);
             if(!isRowFull) {
                 for(int j = VISIBLE_CELL_START_COLUMN; j < COLUMN_COUNT; j++) {
-                    const GameConstants::ColorType colorType = m_Cells[i][j]->GetRectColorType();
+                    const Graphics::ColorType colorType = m_Cells[i][j]->GetRectColorType();
                     m_Cells[fullRowIndex][j]->SetOccupiedStatus(m_Cells[i][j]->GetOccupiedStatus(), colorType);
                 }
                 fullRowIndex--;
@@ -120,7 +106,7 @@ namespace Tetris {
         }
         for(int i = fullRowIndex; i >= VISIBLE_CELL_START_ROW; i--) {
             for(int j = VISIBLE_CELL_START_COLUMN; j < COLUMN_COUNT; j++) {
-                m_Cells[i][j]->SetOccupiedStatus(false, GameConstants::ColorType::Black);
+                m_Cells[i][j]->SetOccupiedStatus(false, Graphics::ColorType::Black);
             }
         }
     }

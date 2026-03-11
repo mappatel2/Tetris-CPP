@@ -48,6 +48,7 @@ namespace Tetris {
         void SetHasLanded(bool hasLanded);
         bool HasMoved() const;
         bool HasOccupiedCellOnBoard() const;
+        Graphics::ColorType GetColorType() const;
 
         void Init(std::unique_ptr<TetrisBlock> tetrisBlock, const int& xPosition, const int& yPosition);
 

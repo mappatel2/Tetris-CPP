@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <iostream>
 #include "InputHandler.h"
+#include "PreviewBlockUI.h"
 
 namespace Tetris {
     Game::Game() {
@@ -8,6 +9,9 @@ namespace Tetris {
         m_Board = std::make_unique<Board>();
         m_InputHandler = std::make_unique<InputHandler>();
         m_BlockFactoryManager = std::make_unique<BlockFactoryManager>();
+
+        ShuffleTetrisBlockBag();
+        InitPreviewBag();
         InitBlock();
 
         m_OutlineYPosition = Board::GetRowPositionFromIndex(Board::VISIBLE_CELL_START_ROW-1);
@@ -46,6 +50,7 @@ namespace Tetris {
         DrawRectangleLines(m_OutlineXPosition, m_OutlineYPosition, m_OutlineWidth, m_OutlineHeight, RAYWHITE);
         m_Board->Draw();
         m_Block->Draw();
+        PreviewBlockUI::Draw();
     }
 
     void Game::Stop() {
@@ -85,13 +90,23 @@ namespace Tetris {
         if(m_Block->HasOccupiedCellOnBoard()) {
             const std::array<Vector2Int, 4>& blockPositionArr = m_Block->GetPositionArr();
             for(int i = 0; i < 4; i++) {
-                m_Board->SetCellAsOccupied(blockPositionArr[i]);
+                m_Board->SetCellAsOccupied(blockPositionArr[i], m_Block->GetColorType());
             }
             m_Board->ClearRows();
             m_CanSpawn = true;
         }
 
         m_Board->Update();
+    }
+
+    void Game::InitBlock() {
+        if(m_Block == nullptr) {
+            m_Block = std::make_unique<Block>();
+        }
+        int xPosition = Board::GetColumnPositionFromIndex(1);
+        int yPosition = Board::GetRowPositionFromIndex(2);
+        std::unique_ptr<TetrisBlock> tetrisBlock = GetTetrisBlock();
+        m_Block->Init(std::move(tetrisBlock), xPosition, yPosition);
     }
 
     void Game::UpdateBlockPosition() {
@@ -109,8 +124,8 @@ namespace Tetris {
             }
         }
         for(int i = 0; i < 4; i++) {
-            possibleNextPositionArr[i].y += m_RowClampOffset * GameConstants::CELL_SIZE;
-            possibleNextPositionArr[i].x += m_ColumnClampOffset * GameConstants::CELL_SIZE;
+            possibleNextPositionArr[i].y += m_RowClampOffset * Config::CELL_SIZE;
+            possibleNextPositionArr[i].x += m_ColumnClampOffset * Config::CELL_SIZE;
         }
 
         bool isNextPositionOccupied = false;
@@ -155,13 +170,39 @@ namespace Tetris {
         m_Block->SetHasLanded(false);
     }
 
-    void Game::InitBlock() {
-        if(m_Block == nullptr) {
-            m_Block = std::make_unique<Block>();
+    void Game::InitPreviewBag() {
+        for(int i = 0; i < 4; i++) {
+            m_PreviewBag[i] = GetBlockFromShuffledBag();
         }
-        int xPosition = Board::GetColumnPositionFromIndex(1);
-        int yPosition = Board::GetRowPositionFromIndex(2);
-        std::unique_ptr<TetrisBlock> tetrisBlock = m_BlockFactoryManager->GetTetrisBlock();
-        m_Block->Init(std::move(tetrisBlock), xPosition, yPosition);
+    }
+
+    int Game::GetBlockFromShuffledBag() {
+        if(m_CurrentShuffledBlockIndex >= m_Bag.size()) {
+            ShuffleTetrisBlockBag();
+        }
+        return m_Bag[m_CurrentShuffledBlockIndex++];
+    }
+
+    int Game::GetBlockFromPreviewBag() {
+        int blockIndex = m_PreviewBag[0];
+        int nextBlockInShuffledBag = GetBlockFromShuffledBag();
+        for(int i = 0; i < 3; i++) {
+            m_PreviewBag[i] = m_PreviewBag[i+1];
+        }
+        m_PreviewBag[3] = nextBlockInShuffledBag;
+        return blockIndex;
+    }
+
+    void Game::ShuffleTetrisBlockBag() {
+        m_CurrentShuffledBlockIndex = 0;
+        for(int i = m_Bag.size() - 1; i >= 0; i--) {
+            int randomIndex = GetRandomValue(0, i);
+            std::swap(m_Bag[i], m_Bag[randomIndex]);
+        }
+    }
+
+    std::unique_ptr<TetrisBlock> Game::GetTetrisBlock() {
+        int blockInPreviewBag = GetBlockFromPreviewBag();
+        return m_BlockFactoryManager->GetTetrisBlock(m_BlockTypesArr[blockInPreviewBag]);
     }
 }

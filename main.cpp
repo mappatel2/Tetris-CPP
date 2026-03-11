@@ -1,10 +1,10 @@
 #include "Game.h"
-#include "GameConstants.h"
+#include "TetrisCore.h"
 #include "raylib.h"
 
 int main()
 {
-    InitWindow(Tetris::GameConstants::SCREEN_WIDTH, Tetris::GameConstants::SCREEN_HEIGHT, "Tetris");
+    InitWindow(Tetris::Config::SCREEN_WIDTH, Tetris::Config::SCREEN_HEIGHT, "Tetris");
     Tetris::Game game = Tetris::Game();
     while(!WindowShouldClose()) {
         BeginDrawing();

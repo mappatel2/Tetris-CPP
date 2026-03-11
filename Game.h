@@ -29,6 +29,20 @@ namespace Tetris {
         float m_SpawnTimer = 0.F;
         const float m_SpawnInterval = 0.5F;
 
+        std::array<TetrominoType, 7> m_BlockTypesArr = {
+            TetrominoType::I,
+            TetrominoType::J,
+            TetrominoType::L,
+            TetrominoType::O,
+            TetrominoType::S,
+            TetrominoType::T,
+            TetrominoType::Z
+        };
+
+        std::array<int, 4> m_PreviewBag;
+        std::array<int, 7> m_Bag = {0, 1, 2, 3, 4, 5, 6};
+        int m_CurrentShuffledBlockIndex = 0;
+
     public:
         Game();
         void Run();
@@ -44,5 +58,11 @@ namespace Tetris {
         void UpdateBlock();
         void UpdateBoard();
         void InitBlock();
+
+        void InitPreviewBag();
+        void ShuffleTetrisBlockBag();
+        [[nodiscard]] int GetBlockFromShuffledBag();
+        [[nodiscard]] int GetBlockFromPreviewBag();
+        [[nodiscard]] std::unique_ptr<TetrisBlock> GetTetrisBlock();
     };
 }

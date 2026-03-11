@@ -2,7 +2,7 @@
 #define CELL_H
 
 #include "Entity.h"
-#include "GameConstants.h"
+#include "TetrisCore.h"
 #include "raylib.h"
 #include "Vector2Int.h"
 
@@ -13,8 +13,8 @@ namespace Tetris {
         bool m_IsOccupied = false;
         bool m_IsVisible = false;
 
-        GameConstants::ColorType m_OutlineColorType = GameConstants::ColorType::White;
-        GameConstants::ColorType m_RectColorType = GameConstants::ColorType::Black;
+        Graphics::ColorType m_OutlineColorType = Graphics::ColorType::White;
+        Graphics::ColorType m_RectColorType = Graphics::ColorType::Black;
 
         Vector2Int m_Position{};
         Color m_RectColor{};
@@ -31,9 +31,9 @@ namespace Tetris {
 
     public:
 
-        void SetOccupiedStatus(bool status, GameConstants::ColorType occupiedColorType);
+        void SetOccupiedStatus(bool status, Graphics::ColorType occupiedColorType);
         bool GetOccupiedStatus() const;
-        GameConstants::ColorType GetRectColorType() const;
+        Graphics::ColorType GetRectColorType() const;
     };
 }
 

@@ -7,8 +7,8 @@ namespace Tetris {
         for(int i = 0; i < Config::ROW_COUNT; i++) {
             m_Cells[i].resize(Config::COLUMN_COUNT);
             for(int j = 0; j < Config::COLUMN_COUNT; j++) {
-                int yPosition = GetRowPositionFromIndex(i);
-                int xPosition = GetColumnPositionFromIndex(j);
+                int yPosition = GridConfig::GetRowPositionFromIndex(i);
+                int xPosition = GridConfig::GetColumnPositionFromIndex(j);
                 m_Cells[i][j] = std::make_unique<Cell>(xPosition, yPosition);
             }
         }
@@ -31,13 +31,13 @@ namespace Tetris {
     }
 
     void Board::SetCellAsOccupied(const Vector2Int& position, Graphics::ColorType colorType) const {
-        int rowIndex = GetRowIndexFromPosition(position.y);
-        int colIndex = GetColumnIndexFromPosition(position.x);
+        int rowIndex = GridConfig::GetRowIndexFromPosition(position.y);
+        int colIndex = GridConfig::GetColumnIndexFromPosition(position.x);
         m_Cells[rowIndex][colIndex]->SetOccupiedStatus(true, colorType);
     }
 
     int Board::RowClampOffset(const Vector2Int& position) {
-        int rowIndex = GetRowIndexFromPosition(position.y);
+        int rowIndex = GridConfig::GetRowIndexFromPosition(position.y);
         if(rowIndex >= Config::ROW_COUNT) {
             return -1;
         }
@@ -45,7 +45,7 @@ namespace Tetris {
     }
 
     int Board::ColumnClampOffset(const Vector2Int& position) {
-        int colIndex = GetColumnIndexFromPosition(position.x);
+        int colIndex = GridConfig::GetColumnIndexFromPosition(position.x);
         if(colIndex >= Config::COLUMN_COUNT) {
             return -1;
         }
@@ -85,8 +85,8 @@ namespace Tetris {
     }
 
     bool Board::CheckIfOccupied(const Vector2Int& positionToCheck) const {
-        int rowIndex = GetRowIndexFromPosition(positionToCheck.y);
-        int colIndex = GetColumnIndexFromPosition(positionToCheck.x);
+        int rowIndex = GridConfig::GetRowIndexFromPosition(positionToCheck.y);
+        int colIndex = GridConfig::GetColumnIndexFromPosition(positionToCheck.x);
         return m_Cells[rowIndex][colIndex]->GetOccupiedStatus();
     }
 

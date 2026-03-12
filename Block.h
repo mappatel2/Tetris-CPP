@@ -5,13 +5,15 @@
 #include "Vector2Int.h"
 #include "raylib.h"
 #include <array>
-#include <memory>
-#include "TetrisBlock.h"
+
+#include "BlockFactoryManager.h"
 
 namespace Tetris {
     class Block : public Entity {
 
     private:
+
+        BlockFactoryManager* m_FactoryManager;
 
         float m_MoveDownTimer = 0.f;
         float m_HasLandedTimer = 0.f;
@@ -25,8 +27,9 @@ namespace Tetris {
         std::array<int, 4> m_RowIndexArr {};
         std::array<int, 4> m_ColumnIndexArr {};
 
+        TetrominoType m_BlockType;
+        int m_CurrentRotationStateIndex = 0;
         Color m_Color {};
-        std::unique_ptr<TetrisBlock> m_TetrisBlock = nullptr;
 
         bool m_HasMovedX = false;
         bool m_HasMovedY = false;
@@ -40,7 +43,7 @@ namespace Tetris {
         void Draw() override;
         ~Block() override = default;
 
-        void UpdateNextPosition(const Vector2Int& inputVector);
+        void UpdateNextPosition(const Vector2Int inputVector);
         void UpdatePosition();
 
         std::array<Vector2Int, 4>& GetPossibleNextPositionArr();
@@ -50,7 +53,10 @@ namespace Tetris {
         bool HasOccupiedCellOnBoard() const;
         Graphics::ColorType GetColorType() const;
 
-        void Init(std::unique_ptr<TetrisBlock> tetrisBlock, const int& xPosition, const int& yPosition);
+        void UpdateCurrentBlockPositions();
+        void UpdateNextBlockPositions();
+
+        void Init(TetrominoType blockType, const int xPosition, const int yPosition);
 
     private:
 

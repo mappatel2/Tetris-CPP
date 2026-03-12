@@ -8,16 +8,15 @@ namespace Tetris {
 
         m_Board = std::make_unique<Board>();
         m_InputHandler = std::make_unique<InputHandler>();
-        m_BlockFactoryManager = std::make_unique<BlockFactoryManager>();
 
         ShuffleTetrisBlockBag();
         InitPreviewBag();
         InitBlock();
 
-        m_OutlineYPosition = Board::GetRowPositionFromIndex(Config::VISIBLE_CELL_START_ROW-1);
-        m_OutlineXPosition = Board::GetColumnPositionFromIndex(-1);
-        m_OutlineHeight = Board::GetRowPositionFromIndex(Config::ROW_COUNT + 1) - m_OutlineYPosition;
-        m_OutlineWidth = Board::GetColumnPositionFromIndex(Config::COLUMN_COUNT + 1) - m_OutlineXPosition;
+        m_OutlineYPosition = GridConfig::GetRowPositionFromIndex(Config::VISIBLE_CELL_START_ROW-1);
+        m_OutlineXPosition = GridConfig::GetColumnPositionFromIndex(-1);
+        m_OutlineHeight = GridConfig::GetRowPositionFromIndex(Config::ROW_COUNT + 1) - m_OutlineYPosition;
+        m_OutlineWidth = GridConfig::GetColumnPositionFromIndex(Config::COLUMN_COUNT + 1) - m_OutlineXPosition;
 
         m_CanSpawn = false;
     }
@@ -103,10 +102,10 @@ namespace Tetris {
         if(m_Block == nullptr) {
             m_Block = std::make_unique<Block>();
         }
-        int xPosition = Board::GetColumnPositionFromIndex(1);
-        int yPosition = Board::GetRowPositionFromIndex(2);
-        std::unique_ptr<TetrisBlock> tetrisBlock = GetTetrisBlock();
-        m_Block->Init(std::move(tetrisBlock), xPosition, yPosition);
+        int xPosition = GridConfig::GetColumnPositionFromIndex(Config::START_COLUMN_INDEX);
+        int yPosition = GridConfig::GetRowPositionFromIndex(Config::START_ROW_INDEX);
+        auto blockType = GetTetrisBlock();
+        m_Block->Init(blockType, xPosition, yPosition);
     }
 
     void Game::UpdateBlockPosition() {
@@ -145,7 +144,7 @@ namespace Tetris {
         //We First Check if The Next Row Is Valid Or Not
         const std::array<Vector2Int, 4>& blockPositionArr = m_Block->GetPositionArr();
         for(int i = 0; i < 4; i++) {
-            int rowIndex = Board::GetRowIndexFromPosition(blockPositionArr[i].y);
+            int rowIndex = GridConfig::GetRowIndexFromPosition(blockPositionArr[i].y);
             int nextRowIndex = rowIndex + 1;
 
             if(!Board::CheckIfValidRowIndex(nextRowIndex)) {
@@ -156,9 +155,9 @@ namespace Tetris {
 
         //We Check If Block On the Next Row Is Occupied Or Not
         for(int i = 0; i < 4; i++) {
-            int rowIndex = Board::GetRowIndexFromPosition(blockPositionArr[i].y);
+            int rowIndex = GridConfig::GetRowIndexFromPosition(blockPositionArr[i].y);
             int nextRowIndex = rowIndex + 1;
-            int rowPosition = Board::GetRowPositionFromIndex(nextRowIndex);
+            int rowPosition = GridConfig::GetRowPositionFromIndex(nextRowIndex);
             int colPosition = blockPositionArr[i].x;
             m_TempPosition.Update(colPosition, rowPosition);
             if(m_Board->CheckIfOccupied(m_TempPosition)) {
@@ -201,8 +200,8 @@ namespace Tetris {
         }
     }
 
-    std::unique_ptr<TetrisBlock> Game::GetTetrisBlock() {
+    TetrominoType Game::GetTetrisBlock() {
         int blockInPreviewBag = GetBlockFromPreviewBag();
-        return m_BlockFactoryManager->GetTetrisBlock(m_BlockTypesArr[blockInPreviewBag]);
+        return static_cast<TetrominoType>(blockInPreviewBag);
     }
 }

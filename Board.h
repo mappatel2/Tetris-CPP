@@ -25,11 +25,6 @@ namespace Tetris {
         void SetCellAsOccupied(const Vector2Int& position, Graphics::ColorType colorType) const;
         void ClearRows() const ;
 
-        static int GetRowPositionFromIndex(int rowIndex);
-        static int GetColumnPositionFromIndex(int colIndex);
-        static int GetRowIndexFromPosition(int rowPosition);
-        static int GetColumnIndexFromPosition(int columnPosition);
-
         static int RowClampOffset(const Vector2Int& position);
         static int ColumnClampOffset(const Vector2Int& position);
         static bool CheckIfValidRowIndex(int rowIndex);

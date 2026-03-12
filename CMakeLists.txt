@@ -20,13 +20,10 @@ add_executable(Tetris main.cpp
         MoveAction.cpp
         MoveAction.h
         Vector2Int.h
-        TetrisBlock.cpp
-        TetrisBlock.h
-        TetrisBlockFactory.h
-        BlockFactoryManager.cpp
         BlockFactoryManager.h
         PreviewBlockUI.cpp
-        PreviewBlockUI.h)
+        PreviewBlockUI.h
+        BlockFactoryManager.cpp)
 
 target_include_directories(Tetris PRIVATE raylib/src)
 target_link_libraries(Tetris PRIVATE raylib_static)

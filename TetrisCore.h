@@ -23,6 +23,9 @@ namespace Tetris {
         constexpr int COLUMN_COUNT = 10;
         constexpr int VISIBLE_CELL_START_ROW = 4;
         constexpr int VISIBLE_CELL_START_COLUMN = 0;
+
+        constexpr int START_ROW_INDEX = 2;
+        constexpr int START_COLUMN_INDEX = 1;
     }
 
     namespace Graphics {
@@ -94,12 +97,10 @@ namespace Tetris {
 
     namespace GridConfig {
 
-        // Converts a 1D or 2D grid index into a raw local pixel position
         inline int IndexToScreenPosition(const int index) {
             return index * Config::CELL_SIZE;
         }
 
-        // Converts a local pixel position back into a grid index
         inline int ScreenPositionToIndex(const int position) {
             return position / Config::CELL_SIZE;
         }

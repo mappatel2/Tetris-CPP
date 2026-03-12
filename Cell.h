@@ -29,8 +29,6 @@ namespace Tetris {
         void Draw() override;
         ~Cell() override = default;
 
-    public:
-
         void SetOccupiedStatus(bool status, Graphics::ColorType occupiedColorType);
         bool GetOccupiedStatus() const;
         Graphics::ColorType GetRectColorType() const;

@@ -1,7 +1,56 @@
 #include "BlockFactoryManager.h"
-#include "TetrisBlock.h"
 
 namespace Tetris {
+
+    const bool BaseIBlock[4][4] = {
+        {false, false, false, false},
+        {true, true, true, true},
+        {false, false, false, false},
+        {false, false, false, false}
+    };
+
+    const bool BaseJBlock[4][4] = {
+        {true, false, false, false},
+        {true, true, true, false},
+        {false, false, false, false},
+        {false, false, false, false}
+    };
+
+    const bool BaseLBlock[4][4] = {
+        {false, false, true, false},
+        {true, true, true, false},
+        {false, false, false, false},
+        {false, false, false, false}
+    };
+
+    const bool BaseOBlock[4][4] = {
+        {false, false, false, false},
+        {false, true, true, false},
+        {false, true, true, false},
+        {false, false, false, false}
+    };
+
+    const bool BaseSBlock[4][4] = {
+        {false, true, true, false},
+        {true, true, false, false},
+        {false, false, false, false},
+        {false, false, false, false}
+    };
+
+    const bool BaseTBlock[4][4] = {
+        {false, true, false, false},
+        {true, true, true, false},
+        {false, false, false, false},
+        {false, false, false, false}
+    };
+
+    const bool BaseZBlock[4][4] = {
+        {true, true, false, false},
+        {false, true, true, false},
+        {false, false, false, false},
+        {false, false, false, false}
+    };
+
     BlockFactoryManager::RotationStateArray BlockFactoryManager::GenerateRotations(const bool baseRotation[4][4]) {
         RotationStateArray states = {};
         for(int r = 0; r < 4; r++) {
@@ -19,4 +68,22 @@ namespace Tetris {
         }
         return states;
     }
+
+    const BlockFactoryManager::RotationStateArray BlockFactoryManager::IBlockRotations = GenerateRotations(BaseIBlock);
+    const BlockFactoryManager::RotationStateArray BlockFactoryManager::JBlockRotations = GenerateRotations(BaseJBlock);
+    const BlockFactoryManager::RotationStateArray BlockFactoryManager::LBlockRotations = GenerateRotations(BaseLBlock);
+    const BlockFactoryManager::RotationStateArray BlockFactoryManager::OBlockRotations = GenerateRotations(BaseOBlock);
+    const BlockFactoryManager::RotationStateArray BlockFactoryManager::SBlockRotations = GenerateRotations(BaseSBlock);
+    const BlockFactoryManager::RotationStateArray BlockFactoryManager::TBlockRotations = GenerateRotations(BaseTBlock);
+    const BlockFactoryManager::RotationStateArray BlockFactoryManager::ZBlockRotations = GenerateRotations(BaseZBlock);
+
+    const std::array<BlockFactoryManager::RotationStateArray, 7> BlockFactoryManager::MasterRotations = {
+        IBlockRotations, JBlockRotations, LBlockRotations, OBlockRotations, SBlockRotations,
+        TBlockRotations, ZBlockRotations
+    };
+
+    const BlockFactoryManager::Matrix4x4& BlockFactoryManager::GetRotationStateMatrix(const TetrominoType blockType, const int stateIndex) {
+        int blockIndex = static_cast<int>(blockType);
+        return MasterRotations[blockIndex][stateIndex];
+    };
 }

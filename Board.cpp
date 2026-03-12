@@ -3,10 +3,10 @@
 
 namespace Tetris {
     Board::Board() {
-        m_Cells.resize(ROW_COUNT);
-        for(int i = 0; i < ROW_COUNT; i++) {
-            m_Cells[i].resize(COLUMN_COUNT);
-            for(int j = 0; j < COLUMN_COUNT; j++) {
+        m_Cells.resize(Config::ROW_COUNT);
+        for(int i = 0; i < Config::ROW_COUNT; i++) {
+            m_Cells[i].resize(Config::COLUMN_COUNT);
+            for(int j = 0; j < Config::COLUMN_COUNT; j++) {
                 int yPosition = GetRowPositionFromIndex(i);
                 int xPosition = GetColumnPositionFromIndex(j);
                 m_Cells[i][j] = std::make_unique<Cell>(xPosition, yPosition);
@@ -15,16 +15,16 @@ namespace Tetris {
     }
 
     void Board::Update() {
-        for(int i = VISIBLE_CELL_START_ROW; i < ROW_COUNT; i++) {
-            for(int j = 0; j < COLUMN_COUNT; j++) {
+        for(int i = Config::VISIBLE_CELL_START_ROW; i < Config::ROW_COUNT; i++) {
+            for(int j = 0; j < Config::COLUMN_COUNT; j++) {
                 m_Cells[i][j]->Update();
             }
         }
     }
 
     void Board::Draw() {
-        for(int i = VISIBLE_CELL_START_ROW; i < ROW_COUNT; i++) {
-            for(int j = 0; j < COLUMN_COUNT; j++) {
+        for(int i = Config::VISIBLE_CELL_START_ROW; i < Config::ROW_COUNT; i++) {
+            for(int j = 0; j < Config::COLUMN_COUNT; j++) {
                 m_Cells[i][j]->Draw();
             }
         }
@@ -36,11 +36,9 @@ namespace Tetris {
         m_Cells[rowIndex][colIndex]->SetOccupiedStatus(true, colorType);
     }
 
-
-
     int Board::RowClampOffset(const Vector2Int& position) {
         int rowIndex = GetRowIndexFromPosition(position.y);
-        if(rowIndex >= ROW_COUNT) {
+        if(rowIndex >= Config::ROW_COUNT) {
             return -1;
         }
         return 0;
@@ -48,7 +46,7 @@ namespace Tetris {
 
     int Board::ColumnClampOffset(const Vector2Int& position) {
         int colIndex = GetColumnIndexFromPosition(position.x);
-        if(colIndex >= COLUMN_COUNT) {
+        if(colIndex >= Config::COLUMN_COUNT) {
             return -1;
         }
         if(colIndex < 0) {
@@ -73,14 +71,14 @@ namespace Tetris {
     // }
 
     bool Board::CheckIfValidRowIndex(const int rowIndex) {
-        if(rowIndex >= ROW_COUNT) {
+        if(rowIndex >= Config::ROW_COUNT) {
             return false;
         }
         return true;
     }
 
     bool Board::CheckIfValidColumnIndex(const int colIndex) {
-        if(colIndex < 0 || colIndex >= COLUMN_COUNT) {
+        if(colIndex < 0 || colIndex >= Config::COLUMN_COUNT) {
             return false;
         }
         return true;
@@ -93,19 +91,19 @@ namespace Tetris {
     }
 
     void Board::ClearRows() const {
-        int fullRowIndex = ROW_COUNT - 1;
-        for(int i = ROW_COUNT - 1; i >= VISIBLE_CELL_START_ROW; i--) {
+        int fullRowIndex = Config::ROW_COUNT - 1;
+        for(int i = Config::ROW_COUNT - 1; i >= Config::VISIBLE_CELL_START_ROW; i--) {
             bool isRowFull = CheckIfRowIsFull(i);
             if(!isRowFull) {
-                for(int j = VISIBLE_CELL_START_COLUMN; j < COLUMN_COUNT; j++) {
+                for(int j = Config::VISIBLE_CELL_START_COLUMN; j < Config::COLUMN_COUNT; j++) {
                     const Graphics::ColorType colorType = m_Cells[i][j]->GetRectColorType();
                     m_Cells[fullRowIndex][j]->SetOccupiedStatus(m_Cells[i][j]->GetOccupiedStatus(), colorType);
                 }
                 fullRowIndex--;
             }
         }
-        for(int i = fullRowIndex; i >= VISIBLE_CELL_START_ROW; i--) {
-            for(int j = VISIBLE_CELL_START_COLUMN; j < COLUMN_COUNT; j++) {
+        for(int i = fullRowIndex; i >= Config::VISIBLE_CELL_START_ROW; i--) {
+            for(int j = Config::VISIBLE_CELL_START_COLUMN; j < Config::COLUMN_COUNT; j++) {
                 m_Cells[i][j]->SetOccupiedStatus(false, Graphics::ColorType::Black);
             }
         }
@@ -116,7 +114,7 @@ namespace Tetris {
             std::cerr << "Row Index Out of Bounds\n";
             return true;
         }
-        for(int j = VISIBLE_CELL_START_COLUMN; j < COLUMN_COUNT; j++) {
+        for(int j = Config::VISIBLE_CELL_START_COLUMN; j < Config::COLUMN_COUNT; j++) {
             if(!m_Cells[rowIndex][j]->GetOccupiedStatus()) return false;
         }
         return true;

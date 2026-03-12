@@ -9,14 +9,6 @@
 namespace Tetris {
 
     class Board : public Entity{
-
-    public:
-
-        static constexpr int ROW_COUNT = 24;
-        static constexpr int COLUMN_COUNT = 10;
-        static constexpr int VISIBLE_CELL_START_ROW = 4;
-        static constexpr int VISIBLE_CELL_START_COLUMN = 0;
-
     private:
 
         bool m_Debug = true;

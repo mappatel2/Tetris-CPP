@@ -14,10 +14,10 @@ namespace Tetris {
         InitPreviewBag();
         InitBlock();
 
-        m_OutlineYPosition = Board::GetRowPositionFromIndex(Board::VISIBLE_CELL_START_ROW-1);
+        m_OutlineYPosition = Board::GetRowPositionFromIndex(Config::VISIBLE_CELL_START_ROW-1);
         m_OutlineXPosition = Board::GetColumnPositionFromIndex(-1);
-        m_OutlineHeight = Board::GetRowPositionFromIndex(Board::ROW_COUNT + 1) - m_OutlineYPosition;
-        m_OutlineWidth = Board::GetColumnPositionFromIndex(Board::COLUMN_COUNT + 1) - m_OutlineXPosition;
+        m_OutlineHeight = Board::GetRowPositionFromIndex(Config::ROW_COUNT + 1) - m_OutlineYPosition;
+        m_OutlineWidth = Board::GetColumnPositionFromIndex(Config::COLUMN_COUNT + 1) - m_OutlineXPosition;
 
         m_CanSpawn = false;
     }

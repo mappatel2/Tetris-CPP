@@ -115,7 +115,7 @@ namespace Tetris {
             m_RowIndexArr[i] = Board::GetRowIndexFromPosition(m_PositionArr[i].y);
             m_ColumnIndexArr[i] = Board::GetColumnIndexFromPosition(m_PositionArr[i].x);
             if(!m_IsVisibleArr[i]) {
-                m_IsVisibleArr[i] = m_RowIndexArr[i] >= Board::VISIBLE_CELL_START_ROW;
+                m_IsVisibleArr[i] = m_RowIndexArr[i] >= Config::VISIBLE_CELL_START_ROW;
             }
         }
     }

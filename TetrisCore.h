@@ -18,6 +18,11 @@ namespace Tetris {
 
         constexpr int TOP_PADDING = -(CELL_SIZE);
         constexpr int LEFT_PADDING = CELL_SIZE * 2;
+
+        constexpr int ROW_COUNT = 24;
+        constexpr int COLUMN_COUNT = 10;
+        constexpr int VISIBLE_CELL_START_ROW = 4;
+        constexpr int VISIBLE_CELL_START_COLUMN = 0;
     }
 
     namespace Graphics {

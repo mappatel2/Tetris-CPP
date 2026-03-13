@@ -2,49 +2,49 @@
 
 namespace Tetris {
 
-    const bool BaseIBlock[4][4] = {
+    const bool BlockFactoryManager::BaseIBlock[4][4] = {
         {false, false, false, false},
         {true, true, true, true},
         {false, false, false, false},
         {false, false, false, false}
     };
 
-    const bool BaseJBlock[4][4] = {
+    const bool BlockFactoryManager::BaseJBlock[4][4] = {
         {true, false, false, false},
         {true, true, true, false},
         {false, false, false, false},
         {false, false, false, false}
     };
 
-    const bool BaseLBlock[4][4] = {
+    const bool BlockFactoryManager::BaseLBlock[4][4] = {
         {false, false, true, false},
         {true, true, true, false},
         {false, false, false, false},
         {false, false, false, false}
     };
 
-    const bool BaseOBlock[4][4] = {
+    const bool BlockFactoryManager::BaseOBlock[4][4] = {
         {false, false, false, false},
         {false, true, true, false},
         {false, true, true, false},
         {false, false, false, false}
     };
 
-    const bool BaseSBlock[4][4] = {
+    const bool BlockFactoryManager::BaseSBlock[4][4] = {
         {false, true, true, false},
         {true, true, false, false},
         {false, false, false, false},
         {false, false, false, false}
     };
 
-    const bool BaseTBlock[4][4] = {
+    const bool BlockFactoryManager::BaseTBlock[4][4] = {
         {false, true, false, false},
         {true, true, true, false},
         {false, false, false, false},
         {false, false, false, false}
     };
 
-    const bool BaseZBlock[4][4] = {
+    const bool BlockFactoryManager::BaseZBlock[4][4] = {
         {true, true, false, false},
         {false, true, true, false},
         {false, false, false, false},

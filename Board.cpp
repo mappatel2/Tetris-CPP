@@ -30,10 +30,10 @@ namespace Tetris {
         }
     }
 
-    void Board::SetCellAsOccupied(const Vector2Int& position, Graphics::ColorType colorType) const {
+    void Board::SetCellAsOccupied(const Vector2Int& position, Color color) const {
         int rowIndex = GridConfig::GetRowIndexFromPosition(position.y);
         int colIndex = GridConfig::GetColumnIndexFromPosition(position.x);
-        m_Cells[rowIndex][colIndex]->SetOccupiedStatus(true, colorType);
+        m_Cells[rowIndex][colIndex]->SetOccupiedStatus(true, color);
     }
 
     int Board::RowClampOffset(const Vector2Int& position) {
@@ -96,15 +96,15 @@ namespace Tetris {
             bool isRowFull = CheckIfRowIsFull(i);
             if(!isRowFull) {
                 for(int j = Config::VISIBLE_CELL_START_COLUMN; j < Config::COLUMN_COUNT; j++) {
-                    const Graphics::ColorType colorType = m_Cells[i][j]->GetRectColorType();
-                    m_Cells[fullRowIndex][j]->SetOccupiedStatus(m_Cells[i][j]->GetOccupiedStatus(), colorType);
+                    const Color color = m_Cells[i][j]->GetRectColor();
+                    m_Cells[fullRowIndex][j]->SetOccupiedStatus(m_Cells[i][j]->GetOccupiedStatus(), color);
                 }
                 fullRowIndex--;
             }
         }
         for(int i = fullRowIndex; i >= Config::VISIBLE_CELL_START_ROW; i--) {
             for(int j = Config::VISIBLE_CELL_START_COLUMN; j < Config::COLUMN_COUNT; j++) {
-                m_Cells[i][j]->SetOccupiedStatus(false, Graphics::ColorType::Black);
+                m_Cells[i][j]->SetOccupiedStatus(false, Graphics::GetCellColor(Graphics::ColorType::Black));
             }
         }
     }

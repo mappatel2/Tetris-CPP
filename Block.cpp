@@ -159,4 +159,8 @@ namespace Tetris {
         m_HasMovedY = false;
         m_HasLanded = false;
     }
+
+    Color Block::GetColor() const {
+        return m_Color;
+    }
 }

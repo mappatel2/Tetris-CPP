@@ -51,7 +51,7 @@ namespace Tetris {
         void SetHasLanded(bool hasLanded);
         bool HasMoved() const;
         bool HasOccupiedCellOnBoard() const;
-        Graphics::ColorType GetColorType() const;
+        Color GetColor() const;
 
         void UpdateCurrentBlockPositions();
         void UpdateNextBlockPositions();

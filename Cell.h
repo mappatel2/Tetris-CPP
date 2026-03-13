@@ -13,9 +13,6 @@ namespace Tetris {
         bool m_IsOccupied = false;
         bool m_IsVisible = false;
 
-        Graphics::ColorType m_OutlineColorType = Graphics::ColorType::White;
-        Graphics::ColorType m_RectColorType = Graphics::ColorType::Black;
-
         Vector2Int m_Position{};
         Color m_RectColor{};
         Color m_OutlineColor{};
@@ -29,9 +26,9 @@ namespace Tetris {
         void Draw() override;
         ~Cell() override = default;
 
-        void SetOccupiedStatus(bool status, Graphics::ColorType occupiedColorType);
+        void SetOccupiedStatus(bool status, Color occupiedColor);
         bool GetOccupiedStatus() const;
-        Graphics::ColorType GetRectColorType() const;
+        Color GetRectColor() const;
     };
 }
 

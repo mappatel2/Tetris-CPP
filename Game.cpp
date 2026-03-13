@@ -89,7 +89,7 @@ namespace Tetris {
         if(m_Block->HasOccupiedCellOnBoard()) {
             const std::array<Vector2Int, 4>& blockPositionArr = m_Block->GetPositionArr();
             for(int i = 0; i < 4; i++) {
-                m_Board->SetCellAsOccupied(blockPositionArr[i], m_Block->GetColorType());
+                m_Board->SetCellAsOccupied(blockPositionArr[i], m_Block->GetColor());
             }
             m_Board->ClearRows();
             m_CanSpawn = true;

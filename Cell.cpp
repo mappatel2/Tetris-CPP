@@ -21,9 +21,8 @@ namespace Tetris {
             Config::CELL_SIZE, Config::CELL_SIZE, m_OutlineColor);
     }
 
-    void Cell::SetOccupiedStatus(bool status, const Graphics::ColorType occupiedColorType) {
-        m_RectColorType = occupiedColorType;
-        m_RectColor = GetCellColor(m_RectColorType);
+    void Cell::SetOccupiedStatus(bool status, const Color occupiedColor) {
+        m_RectColor = occupiedColor;
         m_IsOccupied = status;
     }
 
@@ -31,7 +30,7 @@ namespace Tetris {
         return m_IsOccupied;
     }
 
-    Graphics::ColorType Cell::GetRectColorType() const {
-        return m_RectColorType;
+    Color Cell::GetRectColor() const {
+        return m_RectColor;
     }
 }

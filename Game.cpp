@@ -14,11 +14,6 @@ namespace Tetris {
         InitPreviewBag();
         InitBlock();
 
-        m_OutlineYPosition = GridConfig::GetRowPositionFromIndex(Config::VISIBLE_CELL_START_ROW-1);
-        m_OutlineXPosition = GridConfig::GetColumnPositionFromIndex(-1);
-        m_OutlineHeight = GridConfig::GetRowPositionFromIndex(Config::ROW_COUNT + 1) - m_OutlineYPosition;
-        m_OutlineWidth = GridConfig::GetColumnPositionFromIndex(Config::COLUMN_COUNT + 1) - m_OutlineXPosition;
-
         m_CanSpawn = false;
     }
 
@@ -47,7 +42,6 @@ namespace Tetris {
     }
 
     void Game::Render() {
-        DrawRectangleLines(m_OutlineXPosition, m_OutlineYPosition, m_OutlineWidth, m_OutlineHeight, RAYWHITE);
         m_Board->Draw();
         m_Block->Draw();
         m_PreviewBlockUI->Draw();
@@ -111,21 +105,21 @@ namespace Tetris {
 
     void Game::UpdateBlockPosition() {
         std::array<Vector2Int, 4>& possibleNextPositionArr = m_Block->GetPossibleNextPositionArr();
-        m_RowClampOffset = 0;
-        m_ColumnClampOffset = 0;
+        int rowClampOffset = 0;
+        int columnClampOffset = 0;
         for(int i = 0; i < 4; i++) {
             int tempOffset = Board::RowClampOffset(possibleNextPositionArr[i]);
             if(tempOffset != 0) {
-                m_RowClampOffset = tempOffset;
+                rowClampOffset = tempOffset;
             }
             tempOffset = Board::ColumnClampOffset(possibleNextPositionArr[i]);
             if(tempOffset != 0) {
-                m_ColumnClampOffset = tempOffset;
+                columnClampOffset = tempOffset;
             }
         }
         for(int i = 0; i < 4; i++) {
-            possibleNextPositionArr[i].y += m_RowClampOffset * Config::CELL_SIZE;
-            possibleNextPositionArr[i].x += m_ColumnClampOffset * Config::CELL_SIZE;
+            possibleNextPositionArr[i].y += rowClampOffset * Config::CELL_SIZE;
+            possibleNextPositionArr[i].x += columnClampOffset * Config::CELL_SIZE;
         }
 
         bool isNextPositionOccupied = false;

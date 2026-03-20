@@ -23,6 +23,7 @@ namespace Tetris {
     }
 
     void Board::Draw() {
+        DrawRectangleLines(m_OutlineXPosition, m_OutlineYPosition, m_OutlineWidth, m_OutlineHeight, RAYWHITE);
         for(int i = Config::VISIBLE_CELL_START_ROW; i < Config::ROW_COUNT; i++) {
             for(int j = 0; j < Config::COLUMN_COUNT; j++) {
                 m_Cells[i][j]->Draw();

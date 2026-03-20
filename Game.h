@@ -18,13 +18,6 @@ namespace Tetris {
         Vector2Int m_InputVector{};
         Vector2Int m_TempPosition{};
 
-        int m_OutlineXPosition;
-        int m_OutlineYPosition;
-        int m_OutlineWidth;
-        int m_OutlineHeight;
-        int m_RowClampOffset;
-        int m_ColumnClampOffset;
-
         bool m_CanSpawn = false;
 
         float m_SpawnTimer = 0.F;

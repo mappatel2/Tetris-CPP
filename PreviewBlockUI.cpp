@@ -5,11 +5,11 @@
 #include "TetrisCore.h"
 
 namespace Tetris {
-    void PreviewBlockUI::Draw() {
-        DrawRectangle(GridConfig::GetColumnPositionFromIndex(Config::COLUMN_COUNT + 2),
-            GridConfig::GetRowPositionFromIndex(Config::VISIBLE_CELL_START_ROW - 1),
-            8 * Config::CELL_SIZE,
-            21 * Config::CELL_SIZE,
+    void PreviewBlockUI::Draw() const {
+        DrawRectangle(GridConfig::GetColumnPositionFromIndex(m_Anchor.x),
+            GridConfig::GetRowPositionFromIndex(m_Anchor.y),
+            m_Columns * Config::CELL_SIZE,
+            m_Rows * Config::CELL_SIZE,
             YELLOW);
     }
 }

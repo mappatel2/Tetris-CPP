@@ -8,6 +8,7 @@ namespace Tetris {
 
         m_Board = std::make_unique<Board>();
         m_InputHandler = std::make_unique<InputHandler>();
+        m_PreviewBlockUI = std::make_unique<PreviewBlockUI>();
 
         ShuffleTetrisBlockBag();
         InitPreviewBag();
@@ -49,7 +50,7 @@ namespace Tetris {
         DrawRectangleLines(m_OutlineXPosition, m_OutlineYPosition, m_OutlineWidth, m_OutlineHeight, RAYWHITE);
         m_Board->Draw();
         m_Block->Draw();
-        PreviewBlockUI::Draw();
+        m_PreviewBlockUI->Draw();
     }
 
     void Game::Stop() {

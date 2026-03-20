@@ -4,6 +4,7 @@
 #include "InputHandler.h"
 #include "Block.h"
 #include "BlockFactoryManager.h"
+#include "PreviewBlockUI.h"
 
 namespace Tetris {
     class Game {
@@ -12,6 +13,7 @@ namespace Tetris {
         std::unique_ptr<Board> m_Board;
         std::unique_ptr<InputHandler> m_InputHandler;
         std::unique_ptr<Block> m_Block;
+        std::unique_ptr<PreviewBlockUI> m_PreviewBlockUI;
 
         Vector2Int m_InputVector{};
         Vector2Int m_TempPosition{};

@@ -31,7 +31,7 @@ namespace Tetris {
     void Block::UpdateCurrentBlockPositions() {
         int index = 0;
         Vector2Int blockPosition = m_CornerPosition;
-        const auto& rotationStateMatrix = m_FactoryManager->GetRotationStateMatrix(m_BlockType, m_CurrentRotationStateIndex);
+        const auto& rotationStateMatrix = BlockFactoryManager::GetRotationStateMatrix(m_BlockType, m_CurrentRotationStateIndex);
         for(int i = 0; i < 4; i++) {
             for(int j = 0; j < 4; j++) {
                 if(rotationStateMatrix[i][j]) {

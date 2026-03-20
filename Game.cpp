@@ -44,7 +44,7 @@ namespace Tetris {
     void Game::Render() {
         m_Board->Draw();
         m_Block->Draw();
-        m_PreviewBlockUI->Draw();
+        m_PreviewBlockUI->Draw(m_PreviewBag);
     }
 
     void Game::Stop() {

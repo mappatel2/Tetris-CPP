@@ -3,6 +3,12 @@
 
 namespace Tetris {
     Board::Board() {
+
+        m_OutlineYPosition = GridConfig::GetRowPositionFromIndex(Config::VISIBLE_CELL_START_ROW-1);
+        m_OutlineXPosition = GridConfig::GetColumnPositionFromIndex(-1);
+        m_OutlineHeight = GridConfig::GetRowPositionFromIndex(Config::ROW_COUNT + 1) - m_OutlineYPosition;
+        m_OutlineWidth = GridConfig::GetColumnPositionFromIndex(Config::COLUMN_COUNT + 1) - m_OutlineXPosition;
+
         m_Cells.resize(Config::ROW_COUNT);
         for(int i = 0; i < Config::ROW_COUNT; i++) {
             m_Cells[i].resize(Config::COLUMN_COUNT);

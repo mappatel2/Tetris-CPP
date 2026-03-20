@@ -11,10 +11,10 @@ namespace Tetris {
     class Board : public Entity{
     private:
 
-        constexpr int m_OutlineYPosition = GridConfig::GetRowPositionFromIndex(Config::VISIBLE_CELL_START_ROW-1);
-        constexpr int m_OutlineXPosition = GridConfig::GetColumnPositionFromIndex(-1);
-        constexpr int m_OutlineHeight = GridConfig::GetRowPositionFromIndex(Config::ROW_COUNT + 1) - m_OutlineYPosition;
-        constexpr int m_OutlineWidth = GridConfig::GetColumnPositionFromIndex(Config::COLUMN_COUNT + 1) - m_OutlineXPosition;
+        int m_OutlineYPosition;
+        int m_OutlineXPosition;
+        int m_OutlineHeight;
+        int m_OutlineWidth;
 
         bool m_Debug = true;
 

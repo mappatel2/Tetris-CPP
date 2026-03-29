@@ -1,7 +1,8 @@
-#pragma once
+#pragma once;
+#include "InputAction.h"
 
 namespace Tetris {
-    class MoveAction {
+    class DasAction : public InputAction{
     private:
         static constexpr float DAS_DELAY = 0.334F;
         static constexpr float AUTO_REPEAT_INTERVAL = 0.066F;
@@ -14,11 +15,12 @@ namespace Tetris {
 
     public:
 
-        MoveAction() = delete;
-        explicit MoveAction(int keyValue);
-        void Update();
-        ~MoveAction() = default;
+        DasAction() = delete;
+        ~DasAction() override = default;
+        explicit DasAction(int keyValue);
 
-        bool CanExecute() const;
+        void Update() override;
+        bool CanExecute() const override;
     };
-};
+}
+

@@ -17,13 +17,16 @@ add_executable(Tetris main.cpp
         Block.h
         InputHandler.cpp
         InputHandler.h
-        MoveAction.cpp
-        MoveAction.h
         Vector2Int.h
         BlockFactoryManager.h
         PreviewBlockUI.cpp
         PreviewBlockUI.h
-        BlockFactoryManager.cpp)
+        BlockFactoryManager.cpp
+        InputAction.h
+        DasAction.cpp
+        DasAction.h
+        TriggerAction.cpp
+        TriggerAction.h)
 
 target_include_directories(Tetris PRIVATE raylib/src)
 target_link_libraries(Tetris PRIVATE raylib_static)

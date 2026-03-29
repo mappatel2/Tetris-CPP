@@ -56,15 +56,19 @@ namespace Tetris {
         m_InputVector.y = 0;
 
         m_InputHandler->Update();
-        if(m_InputHandler->CanMoveLeft()) {
+
+        if(m_InputHandler->CanExecuteLeft()) {
             m_InputVector.x = -1;
         }
-        else if(m_InputHandler->CanMoveRight()) {
+        else if(m_InputHandler->CanExecuteRight()) {
             m_InputVector.x = 1;
         }
 
-        if(m_InputHandler->CanMoveDown()) {
+        if(m_InputHandler->CanExecuteDown()) {
             m_InputVector.y = 1;
+        }
+        if(m_InputHandler->CanExecuteUp()) {
+            std::cout << "Executed Up Action" << std::endl;
         }
     }
 

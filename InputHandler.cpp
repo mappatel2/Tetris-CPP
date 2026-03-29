@@ -3,14 +3,16 @@
 
 namespace Tetris {
     InputHandler::InputHandler() {
-        m_LeftMoveAction = std::make_unique<MoveAction>(KEY_LEFT);
-        m_RightMoveAction = std::make_unique<MoveAction>(KEY_RIGHT);
-        m_DownMoveAction = std::make_unique<MoveAction>(KEY_DOWN);
+        m_LeftMoveAction = std::make_unique<DasAction>(KEY_LEFT);
+        m_RightMoveAction = std::make_unique<DasAction>(KEY_RIGHT);
+        m_DownMoveAction = std::make_unique<DasAction>(KEY_DOWN);
+        m_UpMoveAction = std::make_unique<TriggerAction>(KEY_UP);
     }
 
-    void InputHandler::Update() {
+    void InputHandler::Update() const {
         m_LeftMoveAction->Update();
         m_RightMoveAction->Update();
         m_DownMoveAction->Update();
+        m_UpMoveAction->Update();
     }
 }

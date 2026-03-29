@@ -2,33 +2,39 @@
 #define INPUTHANDLER_H
 
 #include <memory>
-#include "MoveAction.h"
+#include "DasAction.h"
+#include "TriggerAction.h"
 
 namespace Tetris {
     class InputHandler {
 
     private:
 
-        std::unique_ptr<MoveAction> m_LeftMoveAction;
-        std::unique_ptr<MoveAction> m_RightMoveAction;
-        std::unique_ptr<MoveAction> m_DownMoveAction;
+        std::unique_ptr<DasAction> m_LeftMoveAction;
+        std::unique_ptr<DasAction> m_RightMoveAction;
+        std::unique_ptr<DasAction> m_DownMoveAction;
+        std::unique_ptr<TriggerAction> m_UpMoveAction;
 
     public:
 
         InputHandler();
 
-        void Update();
+        void Update() const;
 
-        bool CanMoveLeft() const {
+        bool CanExecuteLeft() const {
             return m_LeftMoveAction->CanExecute();
         }
 
-        bool CanMoveRight() const {
+        bool CanExecuteRight() const {
             return m_RightMoveAction->CanExecute();
         }
 
-        bool CanMoveDown() const {
+        bool CanExecuteDown() const {
             return m_DownMoveAction->CanExecute();
+        }
+
+        bool CanExecuteUp() const {
+            return m_UpMoveAction->CanExecute();
         }
     };
 

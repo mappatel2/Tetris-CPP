@@ -15,6 +15,6 @@ namespace Tetris {
 
         PreviewBlockUI() = default;
         ~PreviewBlockUI() = default;
-        void Draw(std::array<int, 4>) const;
+        void Draw(const std::array<int, 4>&) const;
     };
 }

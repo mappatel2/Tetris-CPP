@@ -26,7 +26,9 @@ add_executable(Tetris main.cpp
         DasAction.cpp
         DasAction.h
         TriggerAction.cpp
-        TriggerAction.h)
+        TriggerAction.h
+        BlockSpawner.cpp
+        BlockSpawner.h)
 
 target_include_directories(Tetris PRIVATE raylib/src)
 target_link_libraries(Tetris PRIVATE raylib_static)

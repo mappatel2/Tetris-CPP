@@ -5,7 +5,7 @@
 #include "TetrisCore.h"
 
 namespace Tetris {
-    void PreviewBlockUI::Draw(const std::array<int,4>& previewBag) const {
+    void PreviewBlockUI::Draw(const std::array<int,4> previewBag) const {
         DrawRectangleLines(GridConfig::GetColumnPositionFromIndex(m_Anchor.x),
             GridConfig::GetRowPositionFromIndex(m_Anchor.y),
             m_Columns * Config::CELL_SIZE,

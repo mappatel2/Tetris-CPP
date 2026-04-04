@@ -8,10 +8,9 @@ namespace Tetris {
 
         m_Board = std::make_unique<Board>();
         m_InputHandler = std::make_unique<InputHandler>();
+        m_BlockSpawner = std::make_unique<BlockSpawner>();
         m_PreviewBlockUI = std::make_unique<PreviewBlockUI>();
 
-        ShuffleTetrisBlockBag();
-        InitPreviewBag();
         InitBlock();
 
         m_CanSpawn = false;
@@ -44,7 +43,7 @@ namespace Tetris {
     void Game::Render() {
         m_Board->Draw();
         m_Block->Draw();
-        m_PreviewBlockUI->Draw(m_PreviewBag);
+        m_PreviewBlockUI->Draw(m_BlockSpawner->GetPreviewBag());
     }
 
     void Game::Stop() {
@@ -166,41 +165,5 @@ namespace Tetris {
         }
 
         m_Block->SetHasLanded(false);
-    }
-
-    void Game::InitPreviewBag() {
-        for(int i = 0; i < 4; i++) {
-            m_PreviewBag[i] = GetBlockFromShuffledBag();
-        }
-    }
-
-    int Game::GetBlockFromShuffledBag() {
-        if(m_CurrentShuffledBlockIndex >= m_Bag.size()) {
-            ShuffleTetrisBlockBag();
-        }
-        return m_Bag[m_CurrentShuffledBlockIndex++];
-    }
-
-    int Game::GetBlockFromPreviewBag() {
-        int blockIndex = m_PreviewBag[0];
-        int nextBlockInShuffledBag = GetBlockFromShuffledBag();
-        for(int i = 0; i < 3; i++) {
-            m_PreviewBag[i] = m_PreviewBag[i+1];
-        }
-        m_PreviewBag[3] = nextBlockInShuffledBag;
-        return blockIndex;
-    }
-
-    void Game::ShuffleTetrisBlockBag() {
-        m_CurrentShuffledBlockIndex = 0;
-        for(int i = m_Bag.size() - 1; i >= 0; i--) {
-            int randomIndex = GetRandomValue(0, i);
-            std::swap(m_Bag[i], m_Bag[randomIndex]);
-        }
-    }
-
-    TetrominoType Game::GetTetrisBlock() {
-        int blockInPreviewBag = GetBlockFromPreviewBag();
-        return static_cast<TetrominoType>(blockInPreviewBag);
     }
 }

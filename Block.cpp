@@ -54,20 +54,6 @@ namespace Tetris {
     void Block::Update() {
         if(m_OccupyCellOnBoard) return;
 
-        m_HasMovedX = false;
-        m_HasMovedY = false;
-
-        if(m_MoveDownTimer <= 0.f) {
-            m_MoveDownTimer = m_MoveDownInterval;
-            for(int i = 0; i < 4; i++) {
-                m_PossibleNextPositionArr[i].Update(m_PositionArr[i].x, m_PositionArr[i].y + Config::CELL_SIZE);
-            }
-            m_HasMovedY = true;
-        }
-        else {
-            m_MoveDownTimer -= GetFrameTime();
-        }
-
         if(m_HasLanded) {
             if(m_HasLandedTimer < m_HasLandedInterval) {
                 m_HasLandedTimer += GetFrameTime();
@@ -80,21 +66,23 @@ namespace Tetris {
         }
     }
 
-    void Block::UpdateNextPosition(const Vector2Int inputVector) {
+    void Block::UpdateNextPosition(const Vector2Int movementVector) {
         if(m_OccupyCellOnBoard) return;
         for(int i = 0; i < 4; i++) {
-            m_PossibleNextPositionArr[i].y = m_PositionArr[i].y + (Config::CELL_SIZE * inputVector.y);
-            m_PossibleNextPositionArr[i].x = m_PositionArr[i].x + (Config::CELL_SIZE * inputVector.x);
+            m_PossibleNextPositionArr[i].y = m_PositionArr[i].y + (Config::CELL_SIZE * movementVector.y);
+            m_PossibleNextPositionArr[i].x = m_PositionArr[i].x + (Config::CELL_SIZE * movementVector.x);
         }
-
-        if(inputVector.x != 0) m_HasMovedX = true;
-        if(inputVector.y != 0) m_HasMovedY = true;
     }
 
-    void Block::UpdatePosition(const std::array<Vector2Int, 4>& nextPositionArr) {
+    void Block::MoveBy(const Vector2Int moveVector) {
         if(m_OccupyCellOnBoard) return;
+
+        Vector2Int movePosition = moveVector;
+        movePosition *= Config::CELL_SIZE;
+
+        m_CornerPosition += movePosition;
         for(int i = 0; i < 4; i++) {
-            m_PositionArr[i].Update(nextPositionArr[i]);
+            m_PositionArr[i] += movePosition;
         }
         UpdateIndex();
     }
@@ -107,13 +95,6 @@ namespace Tetris {
             DrawRectangle(m_PositionArr[i].x, m_PositionArr[i].y, Config::CELL_SIZE, Config::CELL_SIZE, m_Color);
             DrawRectangleLines(m_PositionArr[i].x, m_PositionArr[i].y, Config::CELL_SIZE, Config::CELL_SIZE, RAYWHITE);
         }
-    }
-
-    bool Block::HasMoved() const {
-        if(m_HasMovedX || m_HasMovedY) {
-            return true;
-        }
-        return false;
     }
 
     std::array<Vector2Int, 4> Block::GetPossibleNextPositionArr() const {
@@ -147,7 +128,6 @@ namespace Tetris {
 
     void Block::ResetTimers() {
         m_HasLandedTimer = 0.F;
-        m_MoveDownTimer = 0.F;
     }
 
     void Block::ResetFlags() {
@@ -155,8 +135,6 @@ namespace Tetris {
             m_IsVisibleArr[i] = false;
         }
         m_OccupyCellOnBoard = false;
-        m_HasMovedX = false;
-        m_HasMovedY = false;
         m_HasLanded = false;
     }
 

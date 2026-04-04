@@ -17,8 +17,10 @@ namespace Tetris {
         std::unique_ptr<BlockSpawner> m_BlockSpawner;
         std::unique_ptr<PreviewBlockUI> m_PreviewBlockUI;
 
-        Vector2Int m_InputVector{};
-        Vector2Int m_TempPosition{};
+        Vector2Int m_MovementVector{};
+
+        float m_MoveDownTimer = 0.f;
+        const float m_MoveDownInterval = 0.8f;
 
         bool m_CanSpawn = false;
         float m_SpawnTimer = 0.F;
@@ -32,18 +34,14 @@ namespace Tetris {
         void Stop();
 
     private:
-        void UpdateBlockPosition();
+
         void SetBlockHasLandedStatus();
 
         void UpdateInput();
+        void UpdateGravity();
         void UpdateBlock();
         void UpdateBoard();
         void InitBlock();
 
-        void InitPreviewBag();
-        void ShuffleTetrisBlockBag();
-        [[nodiscard]] int GetBlockFromShuffledBag();
-        [[nodiscard]] int GetBlockFromPreviewBag();
-        [[nodiscard]] TetrominoType GetTetrisBlock();
     };
 }

@@ -45,48 +45,25 @@ namespace Tetris {
     }
 
     bool Board::IsValidPosition(const std::array<Vector2Int, 4>& nextPossiblePositions) const {
-        bool isNextPositionOccupied = false;
         for(int i = 0; i < 4; i++) {
+            int rowIndex = GridConfig::GetRowIndexFromPosition(nextPossiblePositions[i].y);
+            if(rowIndex >= Config::ROW_COUNT) {
+                return false;
+            }
+
+            int colIndex = GridConfig::GetColumnIndexFromPosition(nextPossiblePositions[i].x);
+            if(colIndex >= Config::COLUMN_COUNT) {
+                return false;
+            }
+            if(colIndex < 0) {
+                return false;
+            }
+
             if(CheckIfOccupied(nextPossiblePositions[i])) {
-                isNextPositionOccupied = true;
-                break;
+                return false;
             }
         }
-        return !isNextPositionOccupied;
-    }
-
-    Vector2Int Board::GetClampOffset(const std::array<Vector2Int, 4>& nextPossiblePositions) {
-        Vector2Int clampOffset = {0, 0};
-        for(int i = 0; i < 4; i++) {
-            int tempOffset = RowClampOffset(nextPossiblePositions[i]);
-            if(tempOffset != 0) {
-                clampOffset.y = tempOffset;
-            }
-            tempOffset = ColumnClampOffset(nextPossiblePositions[i]);
-            if(tempOffset != 0) {
-                clampOffset.x = tempOffset;
-            }
-        }
-        return clampOffset;
-    }
-
-    int Board::RowClampOffset(const Vector2Int& position) {
-        int rowIndex = GridConfig::GetRowIndexFromPosition(position.y);
-        if(rowIndex >= Config::ROW_COUNT) {
-            return -1;
-        }
-        return 0;
-    }
-
-    int Board::ColumnClampOffset(const Vector2Int& position) {
-        int colIndex = GridConfig::GetColumnIndexFromPosition(position.x);
-        if(colIndex >= Config::COLUMN_COUNT) {
-            return -1;
-        }
-        if(colIndex < 0) {
-            return 1;
-        }
-        return 0;
+        return true;
     }
 
     bool Board::CheckIfValidRowIndex(const int rowIndex) {

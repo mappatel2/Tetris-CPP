@@ -36,6 +36,7 @@ namespace Tetris {
         }
 
         UpdateInput();
+        UpdateGravity();
         UpdateBlock();
         UpdateBoard();
     }
@@ -51,45 +52,53 @@ namespace Tetris {
     }
 
     void Game::UpdateInput() {
-        m_InputVector.x = 0;
-        m_InputVector.y = 0;
+        m_MovementVector.x = 0;
+        m_MovementVector.y = 0;
 
         m_InputHandler->Update();
 
         if(m_InputHandler->CanExecuteLeft()) {
-            m_InputVector.x = -1;
+            m_MovementVector.x = -1;
         }
         else if(m_InputHandler->CanExecuteRight()) {
-            m_InputVector.x = 1;
+            m_MovementVector.x = 1;
         }
 
         if(m_InputHandler->CanExecuteDown()) {
-            m_InputVector.y = 1;
+            m_MovementVector.y = 1;
         }
+
         if(m_InputHandler->CanExecuteUp()) {
             std::cout << "Executed Up Action" << std::endl;
         }
     }
 
+    void Game::UpdateGravity() {
+        if (m_MovementVector.y != 0) {
+            m_MoveDownTimer = m_MoveDownInterval;
+        }
+
+        if(m_MoveDownTimer <= 0.f) {
+            m_MoveDownTimer = m_MoveDownInterval;
+            m_MovementVector.y = 1;
+        }
+        else {
+            m_MoveDownTimer -= GetFrameTime();
+        }
+    }
+
     void Game::UpdateBlock() {
         m_Block->Update();
-        if(m_InputVector.x != 0 || m_InputVector.y != 0) {
-            m_Block->UpdateNextPosition(m_InputVector);
+
+        if(m_MovementVector.x == 0 && m_MovementVector.y == 0) {
+            return;
         }
 
-        if(m_Block->HasMoved()) {
-            std::array<Vector2Int, 4> possibleNextPositionArr = m_Block->GetPossibleNextPositionArr();
-            const Vector2Int clampOffset = Board::GetClampOffset(possibleNextPositionArr);
-            for(int i = 0; i < 4; i++) {
-                possibleNextPositionArr[i].y += clampOffset.y * Config::CELL_SIZE;
-                possibleNextPositionArr[i].x += clampOffset.x * Config::CELL_SIZE;
-            }
-
-            if (m_Board->IsValidPosition(possibleNextPositionArr)){
-                m_Block->UpdatePosition(possibleNextPositionArr);
-            }
-            SetBlockHasLandedStatus();
+        m_Block->UpdateNextPosition(m_MovementVector);
+        if (m_Board->IsValidPosition(m_Block->GetPossibleNextPositionArr())){
+            m_Block->MoveBy(m_MovementVector);
         }
+        SetBlockHasLandedStatus();
     }
 
     void Game::UpdateBoard() {
@@ -135,8 +144,8 @@ namespace Tetris {
             int nextRowIndex = rowIndex + 1;
             int rowPosition = GridConfig::GetRowPositionFromIndex(nextRowIndex);
             int colPosition = blockPositionArr[i].x;
-            m_TempPosition.Update(colPosition, rowPosition);
-            if(m_Board->CheckIfOccupied(m_TempPosition)) {
+            Vector2Int nextPosition = {colPosition, rowPosition};
+            if(m_Board->CheckIfOccupied(nextPosition)) {
                 m_Block->SetHasLanded(true);
                 return;
             }

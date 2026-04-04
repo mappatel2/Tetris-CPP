@@ -32,14 +32,11 @@ namespace Tetris {
         void SetCellAsOccupied(const Vector2Int& position, Color color) const;
         void ClearRows() const;
 
-        static Vector2Int GetClampOffset(const std::array<Vector2Int, 4>& nextPossiblePositions);
         static bool CheckIfValidRowIndex(int rowIndex);
         static bool CheckIfValidColumnIndex(int colIndex);
 
     private:
         [[nodiscard]] bool CheckIfRowIsFull(int rowIndex) const;
-        static int RowClampOffset(const Vector2Int& position);
-        static int ColumnClampOffset(const Vector2Int& position);
     };
 }
 

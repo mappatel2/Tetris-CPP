@@ -1,4 +1,5 @@
-#pragma once;
+#pragma once
+
 #include "InputAction.h"
 
 namespace Tetris {

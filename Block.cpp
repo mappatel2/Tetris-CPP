@@ -91,10 +91,10 @@ namespace Tetris {
         if(inputVector.y != 0) m_HasMovedY = true;
     }
 
-    void Block::UpdatePosition() {
+    void Block::UpdatePosition(const std::array<Vector2Int, 4>& nextPositionArr) {
         if(m_OccupyCellOnBoard) return;
         for(int i = 0; i < 4; i++) {
-            m_PositionArr[i].Update(m_PossibleNextPositionArr[i]);
+            m_PositionArr[i].Update(nextPositionArr[i]);
         }
         UpdateIndex();
     }
@@ -116,11 +116,11 @@ namespace Tetris {
         return false;
     }
 
-    std::array<Vector2Int, 4>& Block::GetPossibleNextPositionArr() {
+    std::array<Vector2Int, 4> Block::GetPossibleNextPositionArr() const {
         return m_PossibleNextPositionArr;
     }
 
-    const std::array<Vector2Int, 4>& Block::GetPositionArr() const {
+    std::array<Vector2Int, 4> Block::GetPositionArr() const {
         return m_PositionArr;
     }
 

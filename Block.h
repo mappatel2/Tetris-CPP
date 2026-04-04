@@ -13,8 +13,6 @@ namespace Tetris {
 
     private:
 
-        BlockFactoryManager* m_FactoryManager;
-
         float m_MoveDownTimer = 0.f;
         float m_HasLandedTimer = 0.f;
         const float m_HasLandedInterval = 0.7F;
@@ -43,20 +41,20 @@ namespace Tetris {
         void Draw() override;
         ~Block() override = default;
 
-        void UpdateNextPosition(const Vector2Int inputVector);
-        void UpdatePosition();
+        void UpdateNextPosition(Vector2Int inputVector);
+        void UpdatePosition(const std::array<Vector2Int, 4>& nextPositionArr);
 
-        std::array<Vector2Int, 4>& GetPossibleNextPositionArr();
-        const std::array<Vector2Int, 4>& GetPositionArr() const;
+        [[nodiscard]] std::array<Vector2Int, 4> GetPossibleNextPositionArr() const;
+        [[nodiscard]] std::array<Vector2Int, 4> GetPositionArr() const;
         void SetHasLanded(bool hasLanded);
-        bool HasMoved() const;
-        bool HasOccupiedCellOnBoard() const;
+        [[nodiscard]] bool HasMoved() const;
+        [[nodiscard]] bool HasOccupiedCellOnBoard() const;
         Color GetColor() const;
 
         void UpdateCurrentBlockPositions();
         void UpdateNextBlockPositions();
 
-        void Init(TetrominoType blockType, const int xPosition, const int yPosition);
+        void Init(TetrominoType blockType, int xPosition, int yPosition);
 
     private:
 

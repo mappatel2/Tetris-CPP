@@ -1,4 +1,5 @@
 #include "Board.h"
+#include <array>
 #include <iostream>
 
 namespace Tetris {
@@ -43,6 +44,32 @@ namespace Tetris {
         m_Cells[rowIndex][colIndex]->SetOccupiedStatus(true, color);
     }
 
+    bool Board::IsValidPosition(const std::array<Vector2Int, 4>& nextPossiblePositions) const {
+        bool isNextPositionOccupied = false;
+        for(int i = 0; i < 4; i++) {
+            if(CheckIfOccupied(nextPossiblePositions[i])) {
+                isNextPositionOccupied = true;
+                break;
+            }
+        }
+        return !isNextPositionOccupied;
+    }
+
+    Vector2Int Board::GetClampOffset(const std::array<Vector2Int, 4>& nextPossiblePositions) {
+        Vector2Int clampOffset = {0, 0};
+        for(int i = 0; i < 4; i++) {
+            int tempOffset = RowClampOffset(nextPossiblePositions[i]);
+            if(tempOffset != 0) {
+                clampOffset.y = tempOffset;
+            }
+            tempOffset = ColumnClampOffset(nextPossiblePositions[i]);
+            if(tempOffset != 0) {
+                clampOffset.x = tempOffset;
+            }
+        }
+        return clampOffset;
+    }
+
     int Board::RowClampOffset(const Vector2Int& position) {
         int rowIndex = GridConfig::GetRowIndexFromPosition(position.y);
         if(rowIndex >= Config::ROW_COUNT) {
@@ -61,21 +88,6 @@ namespace Tetris {
         }
         return 0;
     }
-
-    // int Board::ClampOffset(Vector2Int& position) {
-    //     int rowIndex = GetRowIndexFromPosition(position.y);
-    //     int colIndex = GetColumnIndexFromPosition(position.x);
-    //     if(rowIndex >= ROW_COUNT) {
-    //         position.y = GetRowPositionFromIndex(ROW_COUNT - 1);
-    //     }
-    //
-    //     if(colIndex >= COLUMN_COUNT) {
-    //         position.x = GetColumnPositionFromIndex(COLUMN_COUNT - 1);
-    //     }
-    //     else if(colIndex < 0) {
-    //         position.x = GetColumnPositionFromIndex(0);
-    //     }
-    // }
 
     bool Board::CheckIfValidRowIndex(const int rowIndex) {
         if(rowIndex >= Config::ROW_COUNT) {

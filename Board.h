@@ -27,17 +27,19 @@ namespace Tetris {
         void Draw() override;
         ~Board() override;
 
-        bool CheckIfOccupied(const Vector2Int& position) const;
+        [[nodiscard]] bool CheckIfOccupied(const Vector2Int& position) const;
+        [[nodiscard]] bool IsValidPosition(const std::array<Vector2Int, 4>& nextPossiblePositions) const;
         void SetCellAsOccupied(const Vector2Int& position, Color color) const;
-        void ClearRows() const ;
+        void ClearRows() const;
 
-        static int RowClampOffset(const Vector2Int& position);
-        static int ColumnClampOffset(const Vector2Int& position);
+        static Vector2Int GetClampOffset(const std::array<Vector2Int, 4>& nextPossiblePositions);
         static bool CheckIfValidRowIndex(int rowIndex);
         static bool CheckIfValidColumnIndex(int colIndex);
 
     private:
-        bool CheckIfRowIsFull(int rowIndex) const;
+        [[nodiscard]] bool CheckIfRowIsFull(int rowIndex) const;
+        static int RowClampOffset(const Vector2Int& position);
+        static int ColumnClampOffset(const Vector2Int& position);
     };
 }
 

@@ -78,7 +78,16 @@ namespace Tetris {
         }
 
         if(m_Block->HasMoved()) {
-            UpdateBlockPosition();
+            std::array<Vector2Int, 4> possibleNextPositionArr = m_Block->GetPossibleNextPositionArr();
+            const Vector2Int clampOffset = Board::GetClampOffset(possibleNextPositionArr);
+            for(int i = 0; i < 4; i++) {
+                possibleNextPositionArr[i].y += clampOffset.y * Config::CELL_SIZE;
+                possibleNextPositionArr[i].x += clampOffset.x * Config::CELL_SIZE;
+            }
+
+            if (m_Board->IsValidPosition(possibleNextPositionArr)){
+                m_Block->UpdatePosition(possibleNextPositionArr);
+            }
             SetBlockHasLandedStatus();
         }
     }
@@ -102,39 +111,8 @@ namespace Tetris {
         }
         int xPosition = GridConfig::GetColumnPositionFromIndex(Config::START_COLUMN_INDEX);
         int yPosition = GridConfig::GetRowPositionFromIndex(Config::START_ROW_INDEX);
-        auto blockType = GetTetrisBlock();
+        auto blockType = m_BlockSpawner->GetTetrisBlock();
         m_Block->Init(blockType, xPosition, yPosition);
-    }
-
-    void Game::UpdateBlockPosition() {
-        std::array<Vector2Int, 4>& possibleNextPositionArr = m_Block->GetPossibleNextPositionArr();
-        int rowClampOffset = 0;
-        int columnClampOffset = 0;
-        for(int i = 0; i < 4; i++) {
-            int tempOffset = Board::RowClampOffset(possibleNextPositionArr[i]);
-            if(tempOffset != 0) {
-                rowClampOffset = tempOffset;
-            }
-            tempOffset = Board::ColumnClampOffset(possibleNextPositionArr[i]);
-            if(tempOffset != 0) {
-                columnClampOffset = tempOffset;
-            }
-        }
-        for(int i = 0; i < 4; i++) {
-            possibleNextPositionArr[i].y += rowClampOffset * Config::CELL_SIZE;
-            possibleNextPositionArr[i].x += columnClampOffset * Config::CELL_SIZE;
-        }
-
-        bool isNextPositionOccupied = false;
-        for(int i = 0; i < 4; i++) {
-            if(m_Board->CheckIfOccupied(possibleNextPositionArr[i])) {
-                isNextPositionOccupied = true;
-                break;
-            }
-        }
-        if(!isNextPositionOccupied) {
-            m_Block->UpdatePosition();
-        }
     }
 
     void Game::SetBlockHasLandedStatus() {

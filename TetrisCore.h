@@ -1,5 +1,6 @@
 #pragma once
 #include "raylib.h"
+#include "Vector2Int.h"
 
 namespace Tetris {
 
@@ -98,6 +99,10 @@ namespace Tetris {
     namespace GridConfig {
 
         inline int IndexToScreenPosition(const int index) {
+            return index * Config::CELL_SIZE;
+        }
+
+        inline Vector2Int IndexToScreenPosition(const Vector2Int index) {
             return index * Config::CELL_SIZE;
         }
 

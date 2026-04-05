@@ -33,9 +33,7 @@ namespace Tetris {
     void Block::UpdateCurrentBlockPositions() {
         auto positionOffsets = BlockFactoryManager::GetRotationStateMatrix(m_BlockType, m_CurrentRotationStateIndex);
         for (int i = 0; i < 4; i++) {
-            Vector2Int blockPosition = positionOffsets[i];
-            blockPosition *= Config::CELL_SIZE;
-            blockPosition += m_CornerPosition;
+            Vector2Int blockPosition = GridConfig::IndexToScreenPosition(positionOffsets[i]) + m_CornerPosition;
             m_PositionArr[i] = blockPosition;
         }
     }

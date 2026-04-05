@@ -65,4 +65,12 @@ namespace Tetris {
     constexpr Vector2Int operator*(Vector2Int lhs, Vector2Int rhs) {
         return lhs *= rhs;
     }
+
+    constexpr Vector2Int operator*(int lhs, Vector2Int rhs) {
+        return rhs *= lhs;
+    }
+
+    constexpr Vector2Int operator*(Vector2Int lhs, int rhs) {
+        return lhs *= rhs;
+    }
 }

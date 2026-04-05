@@ -20,23 +20,7 @@ namespace Tetris {
         static const PositionOffsets BaseZBlock;
         static const PositionOffsets BaseTBlock;
 
-        static inline constexpr RotationStateArray GenerateRotations(const Matrix4x4 baseRotation) {
-            RotationStateArray states = {};
-            for(int r = 0; r < 4; r++) {
-                for(int c = 0; c < 4; c++) {
-                    states[0][r][c] = baseRotation[r][c];
-                }
-            }
-
-            for(int i = 1; i < 4; i++) {
-                for(int r = 0; r < 4; r++) {
-                    for(int c = 0; c < 4; c++) {
-                        states[i][c][3-r] = states[i-1][r][c];
-                    }
-                }
-            }
-            return states;
-        }
+        static RotationStateArray GenerateRotations(PositionOffsets baseRotation);
 
         static const RotationStateArray IBlockRotations;
         static const RotationStateArray JBlockRotations;
@@ -50,10 +34,7 @@ namespace Tetris {
 
     public:
 
-        static const Matrix4x4& GetRotationStateMatrix(TetrominoType blockType, int stateIndex) {
-            int blockIndex = static_cast<int>(blockType);
-            return MasterRotations[blockIndex][stateIndex];
-        };
+        static const PositionOffsets& GetRotationStateMatrix(TetrominoType blockType, int stateIndex);
     };
 }
 

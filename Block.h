@@ -13,9 +13,6 @@ namespace Tetris {
 
     private:
 
-        float m_HasLandedTimer = 0.f;
-        const float m_HasLandedInterval = 0.7F;
-
         Vector2Int m_CornerPosition = {};
         std::array<Vector2Int, 4> m_PositionArr {};
         std::array<Vector2Int, 4> m_PossibleNextPositionArr {};
@@ -27,13 +24,10 @@ namespace Tetris {
         int m_CurrentRotationStateIndex = 0;
         Color m_Color {};
 
-        bool m_HasLanded = false;
-        bool m_OccupyCellOnBoard = false;
-
     public:
 
         Block() = default;
-        void Update() override;
+        void Update() override {}
         void Draw() override;
         ~Block() override = default;
 
@@ -42,9 +36,7 @@ namespace Tetris {
 
         [[nodiscard]] std::array<Vector2Int, 4> GetPossibleNextPositionArr() const;
         [[nodiscard]] std::array<Vector2Int, 4> GetPositionArr() const;
-        void SetHasLanded(bool hasLanded);
-        [[nodiscard]] bool HasOccupiedCellOnBoard() const;
-        Color GetColor() const;
+        [[nodiscard]] Color GetColor() const;
 
         void UpdateCurrentBlockPositions();
         void UpdateNextBlockPositions();
@@ -54,8 +46,7 @@ namespace Tetris {
     private:
 
         void UpdateIndex();
-        void ResetTimers();
-        void ResetFlags();
+
     };
 }
 

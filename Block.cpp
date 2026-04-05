@@ -23,8 +23,10 @@ namespace Tetris {
             }
         }
 
-        ResetFlags();
-        ResetTimers();
+        for(int i = 0; i < 4; i++) {
+            m_IsVisibleArr[i] = false;
+        }
+
         UpdateIndex();
     }
 
@@ -51,23 +53,7 @@ namespace Tetris {
         UpdateCurrentBlockPositions();
     }
 
-    void Block::Update() {
-        if(m_OccupyCellOnBoard) return;
-
-        if(m_HasLanded) {
-            if(m_HasLandedTimer < m_HasLandedInterval) {
-                m_HasLandedTimer += GetFrameTime();
-            }
-            else {
-                m_HasLandedTimer = 0.F;
-                m_OccupyCellOnBoard = true;
-                std::cout << "Has Landed Timer Ended\n";
-            }
-        }
-    }
-
     void Block::UpdateNextPosition(const Vector2Int movementVector) {
-        if(m_OccupyCellOnBoard) return;
         for(int i = 0; i < 4; i++) {
             m_PossibleNextPositionArr[i].y = m_PositionArr[i].y + (Config::CELL_SIZE * movementVector.y);
             m_PossibleNextPositionArr[i].x = m_PositionArr[i].x + (Config::CELL_SIZE * movementVector.x);
@@ -75,8 +61,6 @@ namespace Tetris {
     }
 
     void Block::MoveBy(const Vector2Int moveVector) {
-        if(m_OccupyCellOnBoard) return;
-
         Vector2Int movePosition = moveVector;
         movePosition *= Config::CELL_SIZE;
 
@@ -88,8 +72,6 @@ namespace Tetris {
     }
 
     void Block::Draw() {
-        if(m_OccupyCellOnBoard) return;
-
         for(int i = 0; i < 4; i++) {
             if(!m_IsVisibleArr[i]) continue;
             DrawRectangle(m_PositionArr[i].x, m_PositionArr[i].y, Config::CELL_SIZE, Config::CELL_SIZE, m_Color);
@@ -105,17 +87,6 @@ namespace Tetris {
         return m_PositionArr;
     }
 
-    void Block::SetHasLanded(const bool hasLanded) {
-        if(!m_HasLanded && hasLanded) {
-            std::cout << "Landed Timer Started\n";
-        }
-        m_HasLanded = hasLanded;
-    }
-
-    bool Block::HasOccupiedCellOnBoard() const {
-        return m_OccupyCellOnBoard;
-    }
-
     void Block::UpdateIndex() {
         for(int i = 0; i < 4; i++) {
             m_RowIndexArr[i] = GridConfig::GetRowIndexFromPosition(m_PositionArr[i].y);
@@ -124,18 +95,6 @@ namespace Tetris {
                 m_IsVisibleArr[i] = m_RowIndexArr[i] >= Config::VISIBLE_CELL_START_ROW;
             }
         }
-    }
-
-    void Block::ResetTimers() {
-        m_HasLandedTimer = 0.F;
-    }
-
-    void Block::ResetFlags() {
-        for(int i = 0; i < 4; i++) {
-            m_IsVisibleArr[i] = false;
-        }
-        m_OccupyCellOnBoard = false;
-        m_HasLanded = false;
     }
 
     Color Block::GetColor() const {

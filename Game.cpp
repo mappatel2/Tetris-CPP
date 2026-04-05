@@ -88,7 +88,20 @@ namespace Tetris {
     }
 
     void Game::UpdateBlock() {
-        m_Block->Update();
+
+        if (m_OccupyCellOnBoard)
+            return;
+
+        if(m_HasLanded) {
+            if(m_HasLandedTimer < m_HasLandedInterval) {
+                m_HasLandedTimer += GetFrameTime();
+            }
+            else {
+                m_HasLandedTimer = 0.F;
+                m_OccupyCellOnBoard = true;
+                std::cout << "Has Landed Timer Ended\n";
+            }
+        }
 
         if(m_MovementVector.x == 0 && m_MovementVector.y == 0) {
             return;
@@ -102,7 +115,7 @@ namespace Tetris {
     }
 
     void Game::UpdateBoard() {
-        if(m_Block->HasOccupiedCellOnBoard()) {
+        if(m_OccupyCellOnBoard) {
             const std::array<Vector2Int, 4>& blockPositionArr = m_Block->GetPositionArr();
             for(int i = 0; i < 4; i++) {
                 m_Board->SetCellAsOccupied(blockPositionArr[i], m_Block->GetColor());
@@ -118,10 +131,15 @@ namespace Tetris {
         if(m_Block == nullptr) {
             m_Block = std::make_unique<Block>();
         }
+
         int xPosition = GridConfig::GetColumnPositionFromIndex(Config::START_COLUMN_INDEX);
         int yPosition = GridConfig::GetRowPositionFromIndex(Config::START_ROW_INDEX);
         auto blockType = m_BlockSpawner->GetTetrisBlock();
         m_Block->Init(blockType, xPosition, yPosition);
+
+        m_HasLanded = false;
+        m_OccupyCellOnBoard = false;
+        m_HasLandedTimer = 0.F;
     }
 
     void Game::SetBlockHasLandedStatus() {
@@ -133,7 +151,7 @@ namespace Tetris {
             int nextRowIndex = rowIndex + 1;
 
             if(!Board::CheckIfValidRowIndex(nextRowIndex)) {
-                m_Block->SetHasLanded(true);
+                m_HasLanded = true;
                 return;
             }
         }
@@ -146,11 +164,11 @@ namespace Tetris {
             int colPosition = blockPositionArr[i].x;
             Vector2Int nextPosition = {colPosition, rowPosition};
             if(m_Board->CheckIfOccupied(nextPosition)) {
-                m_Block->SetHasLanded(true);
+                m_HasLanded = true;
                 return;
             }
         }
 
-        m_Block->SetHasLanded(false);
+        m_HasLanded = false;
     }
 }

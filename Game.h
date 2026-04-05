@@ -26,6 +26,11 @@ namespace Tetris {
         float m_SpawnTimer = 0.F;
         const float m_SpawnInterval = 0.5F;
 
+        float m_HasLandedTimer = 0.f;
+        const float m_HasLandedInterval = 0.7F;
+        bool m_HasLanded = false;
+        bool m_OccupyCellOnBoard = false;
+
     public:
         Game();
         void Run();

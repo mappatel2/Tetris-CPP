@@ -31,20 +31,13 @@ namespace Tetris {
     }
 
     void Block::UpdateCurrentBlockPositions() {
-        int index = 0;
-        // Vector2Int blockPosition = m_CornerPosition;
-        // const auto& rotationStateMatrix = BlockFactoryManager::GetRotationStateMatrix(m_BlockType, m_CurrentRotationStateIndex);
-        // for(int i = 0; i < 4; i++) {
-        //     for(int j = 0; j < 4; j++) {
-        //         if(rotationStateMatrix[i][j]) {
-        //             blockPosition.x = m_CornerPosition.x + Config::CELL_SIZE * j;
-        //             blockPosition.y = m_CornerPosition.y + Config::CELL_SIZE * i;
-        //             m_PositionArr[index].Update(blockPosition);
-        //             index++;
-        //             if(index == 4) return;
-        //         }
-        //     }
-        // }
+        auto positionOffsets = BlockFactoryManager::GetRotationStateMatrix(m_BlockType, m_CurrentRotationStateIndex);
+        for (int i = 0; i < 4; i++) {
+            Vector2Int blockPosition = positionOffsets[i];
+            blockPosition *= Config::CELL_SIZE;
+            blockPosition += m_CornerPosition;
+            m_PositionArr[i] = blockPosition;
+        }
     }
 
     // std::array<Vector2Int, 4> Block::GetNextRotationPositions() {

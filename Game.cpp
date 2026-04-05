@@ -43,7 +43,9 @@ namespace Tetris {
 
     void Game::Render() {
         m_Board->Draw();
-        m_Block->Draw();
+        if (!m_OccupyCellOnBoard) {
+            m_Block->Draw();
+        }
         m_PreviewBlockUI->Draw(m_BlockSpawner->GetPreviewBag());
     }
 
@@ -88,9 +90,7 @@ namespace Tetris {
     }
 
     void Game::UpdateBlock() {
-
-        if (m_OccupyCellOnBoard)
-            return;
+        if (m_OccupyCellOnBoard) return;
 
         if(m_HasLanded) {
             if(m_HasLandedTimer < m_HasLandedInterval) {
@@ -111,6 +111,7 @@ namespace Tetris {
         if (m_Board->IsValidPosition(m_Block->GetPossibleNextPositionArr())){
             m_Block->MoveBy(m_MovementVector);
         }
+
         SetBlockHasLandedStatus();
     }
 
@@ -151,6 +152,8 @@ namespace Tetris {
             int nextRowIndex = rowIndex + 1;
 
             if(!Board::CheckIfValidRowIndex(nextRowIndex)) {
+                std::cout << nextRowIndex << std::endl;
+                std::cout << "Has Landed Timer Started" << "\n";
                 m_HasLanded = true;
                 return;
             }

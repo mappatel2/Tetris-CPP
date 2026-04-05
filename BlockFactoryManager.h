@@ -20,7 +20,7 @@ namespace Tetris {
         static const PositionOffsets BaseZBlock;
         static const PositionOffsets BaseTBlock;
 
-        static RotationStateArray GenerateRotations(PositionOffsets baseRotation);
+        static RotationStateArray GenerateRotations(PositionOffsets baseRotation, int gridSize);
 
         static const RotationStateArray IBlockRotations;
         static const RotationStateArray JBlockRotations;
@@ -34,7 +34,7 @@ namespace Tetris {
 
     public:
 
-        static const PositionOffsets& GetRotationStateMatrix(TetrominoType blockType, int stateIndex);
+        static PositionOffsets GetRotationStateMatrix(TetrominoType blockType, int stateIndex);
     };
 }
 

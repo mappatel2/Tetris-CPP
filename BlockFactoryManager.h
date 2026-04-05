@@ -7,63 +7,18 @@
 namespace Tetris {
     class BlockFactoryManager {
     public:
-        using ShapeOffsets = std::array<Vector2Int, 4>;
-        using RotationStateArray = std::array<ShapeOffsets, 4>;
+        using PositionOffsets = std::array<Vector2Int, 4>;
+        using RotationStateArray = std::array<PositionOffsets, 4>;
 
     private:
 
-        static inline constexpr ShapeOffsets BaseIBlock = {{
-            {0, 1}, {1, 1}, {2, 1}, {3,1}
-        }};
-
-        // static inline constexpr Matrix4x4 BaseIBlock = {{
-        //     {false, false, false, false},
-        //     {true,  true,  true,  true },
-        //     {false, false, false, false},
-        //     {false, false, false, false}
-        // }};
-
-        static inline constexpr Matrix4x4 JBlock = {{
-            {true, false, false, false},
-            {true, true, true, false},
-            {false, false, false, false},
-            {false, false, false, false}
-        }};
-
-        static inline constexpr Matrix4x4 LBlock = {{
-            {false, false, true, false},
-            {true, true, true, false},
-            {false, false, false, false},
-            {false, false, false, false}
-        }};
-
-        static inline constexpr Matrix4x4 OBlock ={{
-            {false, false, false, false},
-            {false, true, true, false},
-            {false, true, true, false},
-            {false, false, false, false}
-        }};
-
-        static inline constexpr Matrix4x4 SBlock = {{
-            {false, true, true, false},
-            {true, true, false, false},
-            {false, false, false, false},
-            {false, false, false, false}
-        }};
-
-        static inline constexpr Matrix4x4 ZBlock = {{
-            {true, true, false, false},
-            {false, true, true, false},
-            {false, false, false, false},
-            {false, false, false, false}
-        }};
-
-        static inline constexpr Matrix4x4 TBlock = {{
-            {false, true, false, false},
-            {true, true, true, false},
-            {false, false, false, false},
-            {false, false, false, false}
-        }};
+        static const PositionOffsets BaseIBlock;
+        static const PositionOffsets BaseJBlock;
+        static const PositionOffsets BaseLBlock;
+        static const PositionOffsets BaseOBlock;
+        static const PositionOffsets BaseSBlock;
+        static const PositionOffsets BaseZBlock;
+        static const PositionOffsets BaseTBlock;
 
         static inline constexpr RotationStateArray GenerateRotations(const Matrix4x4 baseRotation) {
             RotationStateArray states = {};
@@ -83,7 +38,7 @@ namespace Tetris {
             return states;
         }
 
-        static inline constexpr RotationStateArray IBlockRotations = GenerateRotations(BaseIBlock);
+        static const RotationStateArray IBlockRotations;
         static const RotationStateArray JBlockRotations;
         static const RotationStateArray LBlockRotations;
         static const RotationStateArray OBlockRotations;
@@ -91,13 +46,11 @@ namespace Tetris {
         static const RotationStateArray TBlockRotations;
         static const RotationStateArray ZBlockRotations;
 
-        static inline constexpr std::array<RotationStateArray, 7> MasterRotations = {
-            IBlockRotations,
-        };
+        static const std::array<RotationStateArray, 7> MasterRotations;
 
     public:
 
-        static constexpr const Matrix4x4& GetRotationStateMatrix(TetrominoType blockType, int stateIndex) {
+        static const Matrix4x4& GetRotationStateMatrix(TetrominoType blockType, int stateIndex) {
             int blockIndex = static_cast<int>(blockType);
             return MasterRotations[blockIndex][stateIndex];
         };

@@ -47,6 +47,11 @@ namespace Tetris {
         }
     }
 
+    // std::array<Vector2Int, 4> Block::GetNextRotationPositions() {
+    //     int nextRotationStateIndex = (m_CurrentRotationStateIndex + 1) % 4;
+    //
+    // }
+
     void Block::UpdateNextBlockPositions() {
         m_CurrentRotationStateIndex++;
         m_CurrentRotationStateIndex %= 4;

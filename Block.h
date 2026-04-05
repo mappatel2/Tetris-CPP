@@ -34,6 +34,8 @@ namespace Tetris {
         void UpdateNextPosition(Vector2Int inputVector);
         void MoveBy(Vector2Int moveVector);
 
+        // [[nodiscard]] std::array<Vector2Int, 4> GetRotationPositions();
+        // [[nodiscard]] std::array<Vector2Int, 4> GetNextRotationPositions();
         [[nodiscard]] std::array<Vector2Int, 4> GetPossibleNextPositionArr() const;
         [[nodiscard]] std::array<Vector2Int, 4> GetPositionArr() const;
         [[nodiscard]] Color GetColor() const;

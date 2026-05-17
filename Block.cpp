@@ -13,6 +13,7 @@ namespace Tetris {
         m_Color = Graphics::GetTetrominoColor(m_BlockType);
         m_CornerPosition.Update(xPosition, yPosition);
         m_CurrentRotationStateIndex = 0;
+        m_KickDataPosition = {0, 0};
         UpdateCurrentBlockPositions(m_CurrentRotationStateIndex);
 
         int index = 0;
@@ -32,6 +33,7 @@ namespace Tetris {
 
     void Block::UpdateCurrentRotationIndex() {
         m_CurrentRotationStateIndex = m_ProspectiveRotationStateIndex;
+        m_CornerPosition += m_KickDataPosition;
         UpdateCurrentBlockPositions(m_CurrentRotationStateIndex);
     }
 
@@ -43,13 +45,16 @@ namespace Tetris {
         }
     }
 
-    void Block::UpdateNextRotationIndex() {
+    void Block::UpdateNextRotationIndex(int kickTestIndex) {
         m_ProspectiveRotationStateIndex = m_CurrentRotationStateIndex + 1;
         m_ProspectiveRotationStateIndex %= 4;
 
+        Vector2Int kickDataOffset = BlockFactoryManager::GetKickOffset(m_BlockType, m_ProspectiveRotationStateIndex, kickTestIndex);
+        m_KickDataPosition = GridConfig::IndexToScreenPosition(kickDataOffset);
+
         auto positionOffsets = BlockFactoryManager::GetRotationStateMatrix(m_BlockType, m_ProspectiveRotationStateIndex);
         for (int i = 0; i < 4; i++) {
-            Vector2Int blockPosition = GridConfig::IndexToScreenPosition(positionOffsets[i]) + m_CornerPosition;
+            Vector2Int blockPosition = GridConfig::IndexToScreenPosition(positionOffsets[i]) + m_CornerPosition + m_KickDataPosition;
             m_PossibleNextPositionArr[i] = blockPosition;
         }
     }

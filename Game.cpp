@@ -106,9 +106,12 @@ namespace Tetris {
         }
 
         if (m_WantsToRotate) {
-            m_Block->UpdateNextRotationIndex();
-            if (m_Board->IsValidPosition(m_Block->GetPossibleNextPositionArr())) {
-                m_Block->UpdateCurrentRotationIndex();
+            for (int i = 0; i < 5; i++) {
+                m_Block->UpdateNextRotationIndex(i);
+                if (m_Board->IsValidPosition(m_Block->GetPossibleNextPositionArr())) {
+                    m_Block->UpdateCurrentRotationIndex();
+                    break;
+                }
             }
         }
 

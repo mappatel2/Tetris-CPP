@@ -23,6 +23,7 @@ namespace Tetris {
         TetrominoType m_BlockType;
         int m_ProspectiveRotationStateIndex = 0;
         int m_CurrentRotationStateIndex = 0;
+        Vector2Int m_KickDataPosition = {};
         Color m_Color {};
 
     public:
@@ -40,7 +41,7 @@ namespace Tetris {
         [[nodiscard]] Color GetColor() const;
 
         void UpdateCurrentRotationIndex();
-        void UpdateNextRotationIndex();
+        void UpdateNextRotationIndex(int kickTestIndex);
 
         void Init(TetrominoType blockType, int xPosition, int yPosition);
 

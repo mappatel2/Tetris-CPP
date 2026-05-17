@@ -9,6 +9,7 @@ namespace Tetris {
     public:
         using PositionOffsets = std::array<Vector2Int, 4>;
         using RotationStateArray = std::array<PositionOffsets, 4>;
+        using KickDataMatrix = std::array<std::array<Vector2Int, 5>, 4>;
 
     private:
 
@@ -32,9 +33,13 @@ namespace Tetris {
 
         static const std::array<RotationStateArray, 7> MasterRotations;
 
+        static const KickDataMatrix CommonKickData;
+        static const KickDataMatrix IKickData;
+
     public:
 
         static PositionOffsets GetRotationStateMatrix(TetrominoType blockType, int stateIndex);
+        static Vector2Int GetKickOffset(TetrominoType blockType, int rotationStateIndex, int kickTestIndex);
     };
 }
 

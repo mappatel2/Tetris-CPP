@@ -67,4 +67,43 @@ namespace Tetris {
         int blockIndex = static_cast<int>(blockType);
         return MasterRotations[blockIndex][stateIndex];
     };
+
+    const BlockFactoryManager::KickDataMatrix BlockFactoryManager::CommonKickData ={{
+        // Transition From 0 -> 1
+        {{ {0, 0}, {-1, 0}, {-1, -1}, {0,  2}, {-1,  2} }},
+
+        // Transition From 1 -> 2
+        {{ {0, 0}, { 1, 0}, { 1,  1}, {0, -2}, { 1, -2} }},
+
+        // Transition From 2 -> 3
+        {{ {0, 0}, { 1, 0}, { 1, -1}, {0,  2}, { 1,  2} }},
+
+        // Transition From 3 -> 0
+        {{ {0, 0}, {-1, 0}, {-1,  1}, {0, -2}, {-1, -2} }}
+    }};
+
+    const BlockFactoryManager::KickDataMatrix BlockFactoryManager::IKickData = {{
+        // Transition From 0 -> 1
+        {{ {0, 0}, {-2, 0}, { 1, 0}, {-2,  1}, { 1, -2} }},
+
+        // Transition From 1 -> 2
+        {{ {0, 0}, {-1, 0}, { 2, 0}, {-1, -2}, { 2,  1} }},
+
+        // Transition From 2 -> 3
+        {{ {0, 0}, { 2, 0}, {-1, 0}, { 2, -1}, {-1,  2} }},
+
+        // Transition From 3 -> 0
+        {{ {0, 0}, { 1, 0}, {-2, 0}, { 1,  2}, {-2, -1} }}
+    }};
+
+    Vector2Int BlockFactoryManager::GetKickOffset(TetrominoType blockType, int rotationStateIndex, int kickTestIndex) {
+        switch (blockType) {
+            case TetrominoType::O:
+                return {0, 0};
+            case TetrominoType::I:
+                return IKickData[rotationStateIndex][kickTestIndex];
+            default:
+                return CommonKickData[rotationStateIndex][kickTestIndex];
+        }
+    }
 }

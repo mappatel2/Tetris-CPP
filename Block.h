@@ -21,6 +21,7 @@ namespace Tetris {
         std::array<int, 4> m_ColumnIndexArr {};
 
         TetrominoType m_BlockType;
+        int m_ProspectiveRotationStateIndex = 0;
         int m_CurrentRotationStateIndex = 0;
         Color m_Color {};
 
@@ -34,20 +35,19 @@ namespace Tetris {
         void UpdateNextPosition(Vector2Int inputVector);
         void MoveBy(Vector2Int moveVector);
 
-        // [[nodiscard]] std::array<Vector2Int, 4> GetRotationPositions();
-        // [[nodiscard]] std::array<Vector2Int, 4> GetNextRotationPositions();
         [[nodiscard]] std::array<Vector2Int, 4> GetPossibleNextPositionArr() const;
         [[nodiscard]] std::array<Vector2Int, 4> GetPositionArr() const;
         [[nodiscard]] Color GetColor() const;
 
-        void UpdateCurrentBlockPositions();
-        void UpdateNextBlockPositions();
+        void UpdateCurrentRotationIndex();
+        void UpdateNextRotationIndex();
 
         void Init(TetrominoType blockType, int xPosition, int yPosition);
 
     private:
 
         void UpdateIndex();
+        void UpdateCurrentBlockPositions(int rotationStateIndex);
 
     };
 }

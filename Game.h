@@ -19,6 +19,8 @@ namespace Tetris {
 
         Vector2Int m_MovementVector{};
 
+        bool m_WantsToRotate = false;
+
         float m_MoveDownTimer = 0.f;
         const float m_MoveDownInterval = 0.8f;
 

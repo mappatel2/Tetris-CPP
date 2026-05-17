@@ -56,6 +56,7 @@ namespace Tetris {
     void Game::UpdateInput() {
         m_MovementVector.x = 0;
         m_MovementVector.y = 0;
+        m_WantsToRotate = false;
 
         m_InputHandler->Update();
 
@@ -71,11 +72,12 @@ namespace Tetris {
         }
 
         if(m_InputHandler->CanExecuteUp()) {
-            std::cout << "Executed Up Action" << std::endl;
+            m_WantsToRotate = true;
         }
     }
 
     void Game::UpdateGravity() {
+        //When we press the down key, we reset Move Down Timer
         if (m_MovementVector.y != 0) {
             m_MoveDownTimer = m_MoveDownInterval;
         }
@@ -100,6 +102,13 @@ namespace Tetris {
                 m_HasLandedTimer = 0.F;
                 m_OccupyCellOnBoard = true;
                 std::cout << "Has Landed Timer Ended\n";
+            }
+        }
+
+        if (m_WantsToRotate) {
+            m_Block->UpdateNextRotationIndex();
+            if (m_Board->IsValidPosition(m_Block->GetPossibleNextPositionArr())) {
+                m_Block->UpdateCurrentRotationIndex();
             }
         }
 

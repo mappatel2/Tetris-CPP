@@ -13,7 +13,7 @@ namespace Tetris {
         m_Color = Graphics::GetTetrominoColor(m_BlockType);
         m_CornerPosition.Update(xPosition, yPosition);
         m_CurrentRotationStateIndex = 0;
-        UpdateCurrentBlockPositions();
+        UpdateCurrentBlockPositions(m_CurrentRotationStateIndex);
 
         int index = 0;
         for(int y = 0; y < 2; y++) {
@@ -30,29 +30,33 @@ namespace Tetris {
         UpdateIndex();
     }
 
-    void Block::UpdateCurrentBlockPositions() {
-        auto positionOffsets = BlockFactoryManager::GetRotationStateMatrix(m_BlockType, m_CurrentRotationStateIndex);
+    void Block::UpdateCurrentRotationIndex() {
+        m_CurrentRotationStateIndex = m_ProspectiveRotationStateIndex;
+        UpdateCurrentBlockPositions(m_CurrentRotationStateIndex);
+    }
+
+    void Block::UpdateCurrentBlockPositions(int rotationStateIndex) {
+        auto positionOffsets = BlockFactoryManager::GetRotationStateMatrix(m_BlockType, rotationStateIndex);
         for (int i = 0; i < 4; i++) {
             Vector2Int blockPosition = GridConfig::IndexToScreenPosition(positionOffsets[i]) + m_CornerPosition;
             m_PositionArr[i] = blockPosition;
         }
     }
 
-    // std::array<Vector2Int, 4> Block::GetNextRotationPositions() {
-    //     int nextRotationStateIndex = (m_CurrentRotationStateIndex + 1) % 4;
-    //
-    // }
+    void Block::UpdateNextRotationIndex() {
+        m_ProspectiveRotationStateIndex = m_CurrentRotationStateIndex + 1;
+        m_ProspectiveRotationStateIndex %= 4;
 
-    void Block::UpdateNextBlockPositions() {
-        m_CurrentRotationStateIndex++;
-        m_CurrentRotationStateIndex %= 4;
-        UpdateCurrentBlockPositions();
+        auto positionOffsets = BlockFactoryManager::GetRotationStateMatrix(m_BlockType, m_ProspectiveRotationStateIndex);
+        for (int i = 0; i < 4; i++) {
+            Vector2Int blockPosition = GridConfig::IndexToScreenPosition(positionOffsets[i]) + m_CornerPosition;
+            m_PossibleNextPositionArr[i] = blockPosition;
+        }
     }
 
     void Block::UpdateNextPosition(const Vector2Int movementVector) {
         for(int i = 0; i < 4; i++) {
-            m_PossibleNextPositionArr[i].y = m_PositionArr[i].y + (Config::CELL_SIZE * movementVector.y);
-            m_PossibleNextPositionArr[i].x = m_PositionArr[i].x + (Config::CELL_SIZE * movementVector.x);
+            m_PossibleNextPositionArr[i] = m_PositionArr[i] + (Config::CELL_SIZE * movementVector);
         }
     }
 

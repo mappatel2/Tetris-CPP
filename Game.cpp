@@ -94,17 +94,6 @@ namespace Tetris {
     void Game::UpdateBlock() {
         if (m_OccupyCellOnBoard) return;
 
-        if(m_HasLanded) {
-            if(m_HasLandedTimer < m_HasLandedInterval) {
-                m_HasLandedTimer += GetFrameTime();
-            }
-            else {
-                m_HasLandedTimer = 0.F;
-                m_OccupyCellOnBoard = true;
-                std::cout << "Has Landed Timer Ended\n";
-            }
-        }
-
         if (m_WantsToRotate) {
             for (int i = 0; i < 5; i++) {
                 m_Block->UpdateNextRotationIndex(i);
@@ -115,16 +104,26 @@ namespace Tetris {
             }
         }
 
-        if(m_MovementVector.x == 0 && m_MovementVector.y == 0) {
-            return;
-        }
-
-        m_Block->UpdateNextPosition(m_MovementVector);
-        if (m_Board->IsValidPosition(m_Block->GetPossibleNextPositionArr())){
-            m_Block->MoveBy(m_MovementVector);
+        if(m_MovementVector.x != 0 || m_MovementVector.y != 0) {
+            m_Block->UpdateNextPosition(m_MovementVector);
+            if (m_Board->IsValidPosition(m_Block->GetPossibleNextPositionArr())){
+                m_Block->MoveBy(m_MovementVector);
+            }
         }
 
         SetBlockHasLandedStatus();
+
+        if(m_HasLanded) {
+            if(m_HasLandedTimer < m_HasLandedInterval) {
+                m_HasLandedTimer += GetFrameTime();
+                std::cout << "Has Landed Timer : " << m_HasLandedTimer << std::endl;
+            }
+            else {
+                m_HasLandedTimer = 0.F;
+                m_OccupyCellOnBoard = true;
+                std::cout << "Has Landed Timer Ended\n";
+            }
+        }
     }
 
     void Game::UpdateBoard() {
@@ -164,7 +163,6 @@ namespace Tetris {
             int nextRowIndex = rowIndex + 1;
 
             if(!Board::CheckIfValidRowIndex(nextRowIndex)) {
-                std::cout << nextRowIndex << std::endl;
                 std::cout << "Has Landed Timer Started" << "\n";
                 m_HasLanded = true;
                 return;
@@ -185,5 +183,6 @@ namespace Tetris {
         }
 
         m_HasLanded = false;
+        m_HasLandedTimer = 0.F;
     }
 }

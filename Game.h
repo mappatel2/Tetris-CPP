@@ -28,10 +28,14 @@ namespace Tetris {
         float m_SpawnTimer = 0.F;
         const float m_SpawnInterval = 0.5F;
 
+        const int m_LockResetLimit = 15;
+        int m_LockResets = 0;
         float m_HasLandedTimer = 0.f;
         const float m_HasLandedInterval = 0.7F;
+        bool m_IsValidRotationOrPosition = false;
         bool m_HasLanded = false;
         bool m_OccupyCellOnBoard = false;
+        int m_LowestRowReached = 100;
 
     public:
         Game();
@@ -42,13 +46,13 @@ namespace Tetris {
 
     private:
 
-        void SetBlockHasLandedStatus();
-
+        void InitBlock();
         void UpdateInput();
         void UpdateGravity();
         void UpdateBlock();
+        void SetBlockHasLandedStatus();
         void UpdateBoard();
-        void InitBlock();
+        void UpdateLowestRowReached();
 
     };
 }

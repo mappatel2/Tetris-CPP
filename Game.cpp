@@ -43,9 +43,7 @@ namespace Tetris {
 
     void Game::Render() {
         m_Board->Draw();
-        if (!m_OccupyCellOnBoard) {
-            m_Block->Draw();
-        }
+        if (!m_OccupyCellOnBoard) m_Block->Draw();
         m_PreviewBlockUI->Draw(m_BlockSpawner->GetPreviewBag());
     }
 
@@ -67,6 +65,8 @@ namespace Tetris {
         m_OccupyCellOnBoard = false;
         m_HasLandedTimer = 0.F;
         m_LowestRowReached = -1;
+
+        UpdateGhostPosition();
     }
 
     void Game::UpdateInput() {
@@ -111,14 +111,15 @@ namespace Tetris {
 
         if (m_OccupyCellOnBoard) return;
 
-        m_IsValidRotationOrPosition = false;
+        bool isValidRotation = false;
+        bool isValidPosition = false;
 
         if (m_WantsToRotate) {
             for (int i = 0; i < 5; i++) {
                 m_Block->UpdateNextRotationIndex(i);
                 if (m_Board->IsValidPosition(m_Block->GetPossibleNextPositionArr())) {
                     m_Block->UpdateCurrentRotationIndex();
-                    m_IsValidRotationOrPosition = true;
+                    isValidRotation = true;
                     break;
                 }
             }
@@ -128,17 +129,19 @@ namespace Tetris {
             m_Block->UpdateNextPosition(m_MovementVector);
             if (m_Board->IsValidPosition(m_Block->GetPossibleNextPositionArr())){
                 m_Block->MoveBy(m_MovementVector);
-                m_IsValidRotationOrPosition = true;
+                isValidPosition = true;
             }
         }
 
-        if (m_IsValidRotationOrPosition) {
+        if (isValidPosition || isValidRotation) {
             UpdateLowestRowReached();
+            if (isValidPosition && m_MovementVector.x == 0) return;
+            UpdateGhostPosition();
         }
         SetBlockHasLandedStatus();
 
         if(m_HasLanded) {
-            if (m_IsValidRotationOrPosition) {
+            if (isValidPosition || isValidRotation) {
                 if (m_LockResets < m_LockResetLimit) {
                     m_LockResets++;
                     // std::cout << "Lock Resets Count : " << m_LockResets << std::endl;
@@ -205,6 +208,21 @@ namespace Tetris {
         }
 
         m_HasLanded = false;
+    }
+
+    void Game::UpdateGhostPosition() {
+        std::array<Vector2Int, 4> blockPositionArr = m_Block->GetPositionArr();
+        bool isValidPosition = true;
+        while (isValidPosition) {
+            for (int i = 0; i < 4; i++) {
+                blockPositionArr[i].y += Config::CELL_SIZE;
+            }
+            isValidPosition = m_Board->IsValidPosition(blockPositionArr);
+        }
+        for (int i = 0; i < 4; i++) {
+            blockPositionArr[i].y -= Config::CELL_SIZE;
+        }
+        m_Block->UpdateGhostPosition(blockPositionArr);
     }
 
     void Game::UpdateBoard() {

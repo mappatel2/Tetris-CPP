@@ -15,12 +15,13 @@ namespace Tetris {
 
         Vector2Int m_CornerPosition = {};
         std::array<Vector2Int, 4> m_PositionArr {};
+        std::array<Vector2Int, 4> m_GhostPositionArr {};
         std::array<Vector2Int, 4> m_PossibleNextPositionArr {};
         std::array<bool, 4> m_IsVisibleArr {};
         std::array<int, 4> m_RowIndexArr {};
         std::array<int, 4> m_ColumnIndexArr {};
 
-        TetrominoType m_BlockType;
+        TetrominoType m_BlockType = TetrominoType::O;
         int m_ProspectiveRotationStateIndex = 0;
         int m_CurrentRotationStateIndex = 0;
         Vector2Int m_KickDataPosition = {};
@@ -40,6 +41,7 @@ namespace Tetris {
         [[nodiscard]] std::array<Vector2Int, 4> GetPositionArr() const;
         [[nodiscard]] Color GetColor() const;
 
+        void UpdateGhostPosition(const std::array<Vector2Int, 4>& ghostPositionArr);
         void UpdateCurrentRotationIndex();
         void UpdateNextRotationIndex(int kickTestIndex);
 

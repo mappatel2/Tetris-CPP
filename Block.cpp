@@ -76,8 +76,17 @@ namespace Tetris {
         UpdateIndex();
     }
 
+    void Block::UpdateGhostPosition(const std::array<Vector2Int, 4>& ghostPositionArr) {
+        for (int i = 0; i < 4; i++) {
+            m_GhostPositionArr[i] = ghostPositionArr[i];
+        }
+    }
+
     void Block::Draw() {
+        auto ghostPieceColor = RAYWHITE;
+        ghostPieceColor.a = 75;
         for(int i = 0; i < 4; i++) {
+            DrawRectangle(m_GhostPositionArr[i].x, m_GhostPositionArr[i].y, Config::CELL_SIZE, Config::CELL_SIZE, ghostPieceColor);
             if(!m_IsVisibleArr[i]) continue;
             DrawRectangle(m_PositionArr[i].x, m_PositionArr[i].y, Config::CELL_SIZE, Config::CELL_SIZE, m_Color);
             DrawRectangleLines(m_PositionArr[i].x, m_PositionArr[i].y, Config::CELL_SIZE, Config::CELL_SIZE, RAYWHITE);

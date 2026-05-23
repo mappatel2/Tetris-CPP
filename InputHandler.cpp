@@ -7,6 +7,7 @@ namespace Tetris {
         m_RightMoveAction = std::make_unique<DasAction>(KEY_RIGHT);
         m_DownMoveAction = std::make_unique<DasAction>(KEY_DOWN);
         m_UpMoveAction = std::make_unique<TriggerAction>(KEY_UP);
+        m_EnableDebugPanelAction = std::make_unique<TriggerAction>(KEY_F2);
     }
 
     void InputHandler::Update() const {
@@ -14,5 +15,6 @@ namespace Tetris {
         m_RightMoveAction->Update();
         m_DownMoveAction->Update();
         m_UpMoveAction->Update();
+        m_EnableDebugPanelAction->Update();
     }
 }

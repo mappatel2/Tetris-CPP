@@ -30,11 +30,16 @@ namespace Tetris {
 
         const int m_LockResetLimit = 15;
         int m_LockResets = 0;
+
         float m_HasLandedTimer = 0.f;
         const float m_HasLandedInterval = 0.7F;
         bool m_HasLanded = false;
+
         bool m_OccupyCellOnBoard = false;
+
         int m_LowestRowReached = 100;
+
+        bool m_EnableDebugPanel = false;
 
     public:
         Game();

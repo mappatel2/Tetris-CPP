@@ -90,6 +90,10 @@ namespace Tetris {
         if(m_InputHandler->CanExecuteUp()) {
             m_WantsToRotate = true;
         }
+
+        if (m_InputHandler->CanExecuteEnableDebugPanel()) {
+            std::cout << "Debug Panel Enable Button Clicked\n";
+        }
     }
 
     void Game::UpdateGravity() {
@@ -173,7 +177,7 @@ namespace Tetris {
         if (m_LowestRowReached < lowestRowIndex) {
             m_HasLandedTimer = 0.F;
             m_LockResets = 0;
-            std::cout << "Lowest Row Index : " << m_LowestRowReached << std::endl;
+            // std::cout << "Lowest Row Index : " << m_LowestRowReached << std::endl;
         }
 
         m_LowestRowReached = std::max(m_LowestRowReached, lowestRowIndex);

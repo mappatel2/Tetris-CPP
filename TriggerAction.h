@@ -16,6 +16,6 @@ namespace Tetris {
         explicit TriggerAction(int keyValue);
 
         void Update() override;
-        bool CanExecute() const override;
+        [[nodiscard]] bool CanExecute() const override;
     };
 }

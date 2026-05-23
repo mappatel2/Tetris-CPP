@@ -14,6 +14,7 @@ namespace Tetris {
         std::unique_ptr<DasAction> m_RightMoveAction;
         std::unique_ptr<DasAction> m_DownMoveAction;
         std::unique_ptr<TriggerAction> m_UpMoveAction;
+        std::unique_ptr<TriggerAction> m_EnableDebugPanelAction;
 
     public:
 
@@ -21,20 +22,24 @@ namespace Tetris {
 
         void Update() const;
 
-        bool CanExecuteLeft() const {
+        [[nodiscard]] bool CanExecuteLeft() const {
             return m_LeftMoveAction->CanExecute();
         }
 
-        bool CanExecuteRight() const {
+        [[nodiscard]] bool CanExecuteRight() const {
             return m_RightMoveAction->CanExecute();
         }
 
-        bool CanExecuteDown() const {
+        [[nodiscard]] bool CanExecuteDown() const {
             return m_DownMoveAction->CanExecute();
         }
 
-        bool CanExecuteUp() const {
+        [[nodiscard]] bool CanExecuteUp() const {
             return m_UpMoveAction->CanExecute();
+        }
+
+        [[nodiscard]] bool CanExecuteEnableDebugPanel() const {
+            return m_EnableDebugPanelAction->CanExecute();
         }
     };
 

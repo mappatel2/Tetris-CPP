@@ -10,6 +10,7 @@ namespace Tetris {
         m_InputHandler = std::make_unique<InputHandler>();
         m_BlockSpawner = std::make_unique<BlockSpawner>();
         m_PreviewBlockUI = std::make_unique<PreviewBlockUI>();
+        m_DebugPanel = std::make_unique<DebugPanelUI>();
 
         InitBlock();
 
@@ -45,6 +46,7 @@ namespace Tetris {
         m_Board->Draw();
         if (!m_OccupyCellOnBoard) m_Block->Draw();
         m_PreviewBlockUI->Draw(m_BlockSpawner->GetPreviewBag());
+        if (m_EnableDebugPanel) m_DebugPanel->Draw();
     }
 
     void Game::Stop() {
@@ -92,7 +94,7 @@ namespace Tetris {
         }
 
         if (m_InputHandler->CanExecuteEnableDebugPanel()) {
-            std::cout << "Debug Panel Enable Button Clicked\n";
+            m_EnableDebugPanel = !m_EnableDebugPanel;
         }
     }
 

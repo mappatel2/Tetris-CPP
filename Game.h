@@ -1,11 +1,12 @@
 #pragma once
+
 #include <memory>
 #include "Board.h"
 #include "InputHandler.h"
 #include "Block.h"
-#include "BlockFactoryManager.h"
 #include "BlockSpawner.h"
 #include "PreviewBlockUI.h"
+#include "DebugPanelUI.h"
 
 namespace Tetris {
     class Game {
@@ -16,6 +17,7 @@ namespace Tetris {
         std::unique_ptr<Block> m_Block;
         std::unique_ptr<BlockSpawner> m_BlockSpawner;
         std::unique_ptr<PreviewBlockUI> m_PreviewBlockUI;
+        std::unique_ptr<DebugPanelUI> m_DebugPanel;
 
         Vector2Int m_MovementVector{};
 
@@ -39,7 +41,7 @@ namespace Tetris {
 
         int m_LowestRowReached = 100;
 
-        bool m_EnableDebugPanel = false;
+        bool m_EnableDebugPanel = true;
 
     public:
         Game();

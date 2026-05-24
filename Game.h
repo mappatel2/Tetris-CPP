@@ -41,7 +41,7 @@ namespace Tetris {
 
         int m_LowestRowReached = 100;
 
-        bool m_EnableDebugPanel = true;
+        bool m_EnableDebugPanel = false;
 
     public:
         Game();
@@ -60,6 +60,7 @@ namespace Tetris {
         void UpdateBoard();
         void UpdateLowestRowReached();
         void UpdateGhostPosition();
+        void RenderDebugPanel() const;
 
     };
 }

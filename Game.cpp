@@ -46,7 +46,7 @@ namespace Tetris {
         m_Board->Draw();
         if (!m_OccupyCellOnBoard) m_Block->Draw();
         m_PreviewBlockUI->Draw(m_BlockSpawner->GetPreviewBag());
-        if (m_EnableDebugPanel) m_DebugPanel->Draw();
+        RenderDebugPanel();
     }
 
     void Game::Stop() {
@@ -242,5 +242,17 @@ namespace Tetris {
         }
 
         m_Board->Update();
+    }
+
+    void Game::RenderDebugPanel() const {
+        if (!m_EnableDebugPanel) return;
+        m_DebugPanel->Draw({
+            {"Lock Resets Count", std::to_string(m_LockResets)},
+            {"Has Landed Timer", std::to_string(m_HasLandedTimer)},
+            {"Occupy Cell On Board", std::to_string(m_OccupyCellOnBoard)},
+            {"Lowest Row Reached", std::to_string(m_LowestRowReached)},
+            {"Can Spawn", std::to_string(m_CanSpawn)},
+            {"Spawn Timer", std::to_string(m_SpawnTimer)},
+        });
     }
 }

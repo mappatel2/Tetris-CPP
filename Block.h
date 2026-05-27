@@ -40,6 +40,8 @@ namespace Tetris {
         [[nodiscard]] std::array<Vector2Int, 4> GetPossibleNextPositionArr() const;
         [[nodiscard]] std::array<Vector2Int, 4> GetPositionArr() const;
         [[nodiscard]] Color GetColor() const;
+        [[nodiscard]] TetrominoType GetBlockType() const;
+        [[nodiscard]] int GetRotationStateIndex() const;
 
         void UpdateGhostPosition(const std::array<Vector2Int, 4>& ghostPositionArr);
         void UpdateCurrentRotationIndex();

@@ -59,7 +59,7 @@ namespace Tetris {
         void SetBlockHasLandedStatus();
         void UpdateBoard();
         void UpdateLowestRowReached();
-        void UpdateGhostPosition();
+        void UpdateGhostPosition() const;
         void RenderDebugPanel() const;
 
     };

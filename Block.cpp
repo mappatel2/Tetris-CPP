@@ -93,14 +93,6 @@ namespace Tetris {
         }
     }
 
-    std::array<Vector2Int, 4> Block::GetPossibleNextPositionArr() const {
-        return m_PossibleNextPositionArr;
-    }
-
-    std::array<Vector2Int, 4> Block::GetPositionArr() const {
-        return m_PositionArr;
-    }
-
     void Block::UpdateIndex() {
         for(int i = 0; i < 4; i++) {
             m_RowIndexArr[i] = GridConfig::GetRowIndexFromPosition(m_PositionArr[i].y);
@@ -111,7 +103,23 @@ namespace Tetris {
         }
     }
 
+    std::array<Vector2Int, 4> Block::GetPossibleNextPositionArr() const {
+        return m_PossibleNextPositionArr;
+    }
+
+    std::array<Vector2Int, 4> Block::GetPositionArr() const {
+        return m_PositionArr;
+    }
+
     Color Block::GetColor() const {
         return m_Color;
+    }
+
+    int Block::GetRotationStateIndex() const {
+        return m_CurrentRotationStateIndex;
+    }
+
+    TetrominoType Block::GetBlockType() const {
+        return m_BlockType;
     }
 }

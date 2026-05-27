@@ -8,6 +8,31 @@ namespace Tetris {
         I, J, L, O, S, T, Z
     };
 
+    inline const char* ToString(const TetrominoType type) {
+        switch (type) {
+            case TetrominoType::I: return "I";
+            case TetrominoType::J: return "J";
+            case TetrominoType::L: return "L";
+            case TetrominoType::O: return "O";
+            case TetrominoType::S: return "S";
+            case TetrominoType::T: return "T";
+            case TetrominoType::Z: return "Z";
+            default: return "Check ToString Function";
+        }
+    }
+
+    inline std::string ToString(const int val) {
+        return std::to_string(val);
+    }
+
+    inline std::string ToString(const float val) {
+        return std::to_string(val);
+    }
+
+    inline const char* ToString(const bool val) {
+        return val ? "True" : "False";
+    }
+
     namespace Config {
         constexpr int SCREEN_WIDTH = 1100;
         constexpr int SCREEN_HEIGHT = 1000;

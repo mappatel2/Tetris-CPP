@@ -216,7 +216,7 @@ namespace Tetris {
         m_HasLanded = false;
     }
 
-    void Game::UpdateGhostPosition() {
+    void Game::UpdateGhostPosition() const {
         std::array<Vector2Int, 4> blockPositionArr = m_Block->GetPositionArr();
         bool isValidPosition = true;
         while (isValidPosition) {
@@ -246,13 +246,13 @@ namespace Tetris {
 
     void Game::RenderDebugPanel() const {
         if (!m_EnableDebugPanel) return;
+
         m_DebugPanel->Draw({
-            {"Lock Resets Count", std::to_string(m_LockResets)},
-            {"Has Landed Timer", std::to_string(m_HasLandedTimer)},
-            {"Occupy Cell On Board", std::to_string(m_OccupyCellOnBoard)},
-            {"Lowest Row Reached", std::to_string(m_LowestRowReached)},
-            {"Can Spawn", std::to_string(m_CanSpawn)},
-            {"Spawn Timer", std::to_string(m_SpawnTimer)},
+            {"Block Type", ToString(m_Block->GetBlockType())},
+            {"Rotation Index", ToString(m_Block->GetRotationStateIndex())},
+            {"Lock Resets Count", ToString(m_LockResets)},
+            {"Has Landed Timer", ToString(m_HasLandedTimer)},
+            {"Lowest Row Reached", ToString(m_LowestRowReached)},
         });
     }
 }

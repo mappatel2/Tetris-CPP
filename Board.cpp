@@ -86,8 +86,9 @@ namespace Tetris {
         return m_Cells[rowIndex][colIndex]->GetOccupiedStatus();
     }
 
-    void Board::ClearRows() const {
+    int Board::ClearRows() const {
         int fullRowIndex = Config::ROW_COUNT - 1;
+        int rowsCleared = 0;
         for(int i = Config::ROW_COUNT - 1; i >= Config::VISIBLE_CELL_START_ROW; i--) {
             bool isRowFull = CheckIfRowIsFull(i);
             if(!isRowFull) {
@@ -97,12 +98,16 @@ namespace Tetris {
                 }
                 fullRowIndex--;
             }
+            else {
+                rowsCleared++;
+            }
         }
         for(int i = fullRowIndex; i >= Config::VISIBLE_CELL_START_ROW; i--) {
             for(int j = Config::VISIBLE_CELL_START_COLUMN; j < Config::COLUMN_COUNT; j++) {
                 m_Cells[i][j]->SetOccupiedStatus(false, Graphics::GetCellColor(Graphics::ColorType::Black));
             }
         }
+        return rowsCleared;
     }
 
     bool Board::CheckIfRowIsFull(const int rowIndex) const {

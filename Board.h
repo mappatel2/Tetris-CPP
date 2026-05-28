@@ -30,7 +30,7 @@ namespace Tetris {
         [[nodiscard]] bool CheckIfOccupied(const Vector2Int& position) const;
         [[nodiscard]] bool IsValidPosition(const std::array<Vector2Int, 4>& nextPossiblePositions) const;
         void SetCellAsOccupied(const Vector2Int& position, Color color) const;
-        void ClearRows() const;
+        [[nodiscard]] int ClearRows() const;
 
         static bool CheckIfValidRowIndex(int rowIndex);
         static bool CheckIfValidColumnIndex(int colIndex);

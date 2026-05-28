@@ -11,6 +11,7 @@ namespace Tetris {
         m_BlockSpawner = std::make_unique<BlockSpawner>();
         m_PreviewBlockUI = std::make_unique<PreviewBlockUI>();
         m_DebugPanel = std::make_unique<DebugPanelUI>();
+        m_ScoreHelper = std::make_unique<ScoreHelper>();
 
         InitBlock();
 
@@ -237,7 +238,8 @@ namespace Tetris {
             for(int i = 0; i < 4; i++) {
                 m_Board->SetCellAsOccupied(blockPositionArr[i], m_Block->GetColor());
             }
-            m_Board->ClearRows();
+            int rowsCleared = m_Board->ClearRows();
+            m_ScoreHelper->UpdateScore(rowsCleared);
             m_CanSpawn = true;
         }
 
@@ -253,6 +255,7 @@ namespace Tetris {
             {"Lock Resets Count", ToString(m_LockResets)},
             {"Has Landed Timer", ToString(m_HasLandedTimer)},
             {"Lowest Row Reached", ToString(m_LowestRowReached)},
+            {"Current Score", ToString(m_ScoreHelper->GetScore())}
         });
     }
 }

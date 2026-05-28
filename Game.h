@@ -7,6 +7,7 @@
 #include "BlockSpawner.h"
 #include "PreviewBlockUI.h"
 #include "DebugPanelUI.h"
+#include "ScoreHelper.h"
 
 namespace Tetris {
     class Game {
@@ -18,6 +19,7 @@ namespace Tetris {
         std::unique_ptr<BlockSpawner> m_BlockSpawner;
         std::unique_ptr<PreviewBlockUI> m_PreviewBlockUI;
         std::unique_ptr<DebugPanelUI> m_DebugPanel;
+        std::unique_ptr<ScoreHelper> m_ScoreHelper;
 
         Vector2Int m_MovementVector{};
 

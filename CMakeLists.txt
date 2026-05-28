@@ -32,7 +32,10 @@ add_executable(Tetris main.cpp
         DebugPanelUI.cpp
         DebugPanelUI.h
         ResourceManager.h
-        ResourceManager.cpp)
+        ResourceManager.cpp
+        ScoreHelper.cpp
+        ScoreHelper.h
+        GameEvents.h)
 
 target_include_directories(Tetris PRIVATE raylib/src)
 target_link_libraries(Tetris PRIVATE raylib_static)

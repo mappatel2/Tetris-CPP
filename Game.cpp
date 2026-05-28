@@ -15,6 +15,9 @@ namespace Tetris {
 
         InitBlock();
 
+        m_Board->AddObserver(m_ScoreHelper.get());
+        this->AddObserver(m_ScoreHelper.get());
+
         m_CanSpawn = false;
     }
 
@@ -51,6 +54,7 @@ namespace Tetris {
     }
 
     void Game::Stop() {
+        m_Board->RemoveObserver(m_ScoreHelper.get());
         std::cout << "Stopping Game, Call Destroy Functions for Entities\n";
     }
 
@@ -137,6 +141,9 @@ namespace Tetris {
             if (m_Board->IsValidPosition(m_Block->GetPossibleNextPositionArr())){
                 m_Block->MoveBy(m_MovementVector);
                 isValidPosition = true;
+                if (m_MovementVector.y != 0 && m_InputHandler->CanExecuteDown()) {
+                    Notify(GameEvent::Soft_Drop_Step);
+                }
             }
         }
 
@@ -238,8 +245,7 @@ namespace Tetris {
             for(int i = 0; i < 4; i++) {
                 m_Board->SetCellAsOccupied(blockPositionArr[i], m_Block->GetColor());
             }
-            int rowsCleared = m_Board->ClearRows();
-            m_ScoreHelper->UpdateScore(rowsCleared);
+            m_Board->ClearRows();
             m_CanSpawn = true;
         }
 

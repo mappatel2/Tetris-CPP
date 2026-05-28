@@ -5,21 +5,26 @@ namespace Tetris {
         return m_Score;
     }
 
-    void ScoreHelper::UpdateScore(int linesCleared) {
-        if (linesCleared < 0) return;
-        int scoreToAdd = 0;
-        if (linesCleared == 1) {
-            scoreToAdd = 100;
+    void ScoreHelper::OnNotify(GameEvent event) {
+        int basePoints = 0;
+        switch (event) {
+            case GameEvent::Lines_Cleared_1:
+                basePoints = 100;
+                break;
+            case GameEvent::Lines_Cleared_2:
+                basePoints = 300;
+                break;
+            case GameEvent::Lines_Cleared_3:
+                basePoints = 500;
+                break;
+            case GameEvent::Lines_Cleared_4:
+                basePoints = 800;
+                break;
+            case GameEvent::Soft_Drop_Step:
+                basePoints = 1;
+            default:
+                break;
         }
-        else if (linesCleared == 2) {
-            scoreToAdd = 300;
-        }
-        else if (linesCleared == 3) {
-            scoreToAdd = 500;
-        }
-        else if (linesCleared == 4) {
-            scoreToAdd = 800;
-        }
-        m_Score += scoreToAdd;
+        m_Score += basePoints;
     }
 }

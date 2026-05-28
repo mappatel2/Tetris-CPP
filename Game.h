@@ -10,7 +10,7 @@
 #include "ScoreHelper.h"
 
 namespace Tetris {
-    class Game {
+    class Game : public Subject{
     private:
 
         std::unique_ptr<Board> m_Board;

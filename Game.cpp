@@ -17,6 +17,7 @@ namespace Tetris {
         InitBlock();
 
         m_Board->AddObserver(m_ScoreHelper.get());
+        m_Block->AddObserver(m_ScoreHelper.get());
         this->AddObserver(m_ScoreHelper.get());
 
         m_CanSpawn = false;

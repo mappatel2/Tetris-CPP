@@ -32,10 +32,20 @@ namespace Tetris {
     }
 
     void Block::ExecuteHardDrop() {
+        int yDisplacement = 0;
+        int minBlockYPosition = INT_MAX, minGhostYPosition = INT_MAX;
+        for (int i = 0; i < 4; i++) {
+            minBlockYPosition = std::min(minBlockYPosition, m_PositionArr[i].y);
+            minGhostYPosition = std::min(minGhostYPosition, m_GhostPositionArr[i].y);
+        }
+        yDisplacement = GridConfig::ScreenPositionToIndex(minGhostYPosition - minBlockYPosition);
+
         for (int i = 0; i < 4; i++) {
             Vector2Int ghostPosition = m_GhostPositionArr[i];
             m_PositionArr[i] = ghostPosition;
         }
+
+        Notify({EventType::Hard_Drop, yDisplacement});
     }
 
     void Block::UpdateCurrentRotationIndex() {

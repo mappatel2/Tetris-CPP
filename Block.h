@@ -1,15 +1,16 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
+#include <array>
+
 #include "Entity.h"
 #include "Vector2Int.h"
 #include "raylib.h"
-#include <array>
-
 #include "BlockFactoryManager.h"
+#include "Subject.h"
 
 namespace Tetris {
-    class Block : public Entity {
+    class Block : public Subject, public Entity {
 
     private:
 

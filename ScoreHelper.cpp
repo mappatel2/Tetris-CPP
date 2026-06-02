@@ -5,23 +5,26 @@ namespace Tetris {
         return m_Score;
     }
 
-    void ScoreHelper::OnNotify(GameEvent event) {
+    void ScoreHelper::OnNotify(EventMessage eventMessage) {
         int basePoints = 0;
-        switch (event) {
-            case GameEvent::Lines_Cleared_1:
+        switch (eventMessage.type) {
+            case EventType::Lines_Cleared_1:
                 basePoints = 100;
                 break;
-            case GameEvent::Lines_Cleared_2:
+            case EventType::Lines_Cleared_2:
                 basePoints = 300;
                 break;
-            case GameEvent::Lines_Cleared_3:
+            case EventType::Lines_Cleared_3:
                 basePoints = 500;
                 break;
-            case GameEvent::Lines_Cleared_4:
+            case EventType::Lines_Cleared_4:
                 basePoints = 800;
                 break;
-            case GameEvent::Soft_Drop_Step:
+            case EventType::Soft_Drop_Step:
                 basePoints = 1;
+                break;
+            case EventType::Hard_Drop:
+                basePoints = 2 * eventMessage.value;
             default:
                 break;
         }

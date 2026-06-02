@@ -15,6 +15,7 @@ namespace Tetris {
         std::unique_ptr<DasAction> m_DownMoveAction;
         std::unique_ptr<TriggerAction> m_UpMoveAction;
         std::unique_ptr<TriggerAction> m_EnableDebugPanelAction;
+        std::unique_ptr<TriggerAction> m_HardDropAction;
 
     public:
 
@@ -40,6 +41,10 @@ namespace Tetris {
 
         [[nodiscard]] bool CanExecuteEnableDebugPanel() const {
             return m_EnableDebugPanelAction->CanExecute();
+        }
+
+        [[nodiscard]] bool CanExecuteHardDrop() const {
+            return m_HardDropAction->CanExecute();
         }
     };
 

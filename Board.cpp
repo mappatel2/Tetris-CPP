@@ -109,22 +109,26 @@ namespace Tetris {
             }
         }
 
+        EventMessage eventMessage {};
+
         switch (rowsCleared) {
             default:
             case 0: return;
             case 1:
-                Notify(GameEvent::Lines_Cleared_1);
+                eventMessage.type = EventType::Lines_Cleared_1;
                 break;
             case 2:
-                Notify(GameEvent::Lines_Cleared_2);
+                eventMessage.type = EventType::Lines_Cleared_2;
                 break;
             case 3:
-                Notify(GameEvent::Lines_Cleared_3);
+                eventMessage.type = EventType::Lines_Cleared_3;
                 break;
             case 4:
-                Notify(GameEvent::Lines_Cleared_4);
+                eventMessage.type = EventType::Lines_Cleared_4;
                 break;
         }
+
+        Notify(eventMessage);
     }
 
     bool Board::CheckIfRowIsFull(const int rowIndex) const {

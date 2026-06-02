@@ -7,7 +7,7 @@ namespace Tetris {
     class Observer {
     public:
         virtual ~Observer() = default;
-        virtual void OnNotify(GameEvent event) = 0;
+        virtual void OnNotify(EventMessage eventMsg) = 0;
     };
 }
 

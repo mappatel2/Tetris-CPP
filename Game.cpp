@@ -82,8 +82,18 @@ namespace Tetris {
         m_MovementVector.x = 0;
         m_MovementVector.y = 0;
         m_WantsToRotate = false;
+        m_HardDropTriggered = false;
 
         m_InputHandler->Update();
+
+        if (m_InputHandler->CanExecuteEnableDebugPanel()) {
+            m_EnableDebugPanel = !m_EnableDebugPanel;
+        }
+
+        if (m_InputHandler->CanExecuteHardDrop()) {
+            m_HardDropTriggered = true;
+            return;
+        }
 
         if(m_InputHandler->CanExecuteLeft()) {
             m_MovementVector.x = -1;
@@ -99,13 +109,11 @@ namespace Tetris {
         if(m_InputHandler->CanExecuteUp()) {
             m_WantsToRotate = true;
         }
-
-        if (m_InputHandler->CanExecuteEnableDebugPanel()) {
-            m_EnableDebugPanel = !m_EnableDebugPanel;
-        }
     }
 
     void Game::UpdateGravity() {
+        if (m_HardDropTriggered) return;
+
         //When we press the down key, we reset Move Down Timer
         if (m_MovementVector.y != 0) {
             m_MoveDownTimer = m_MoveDownInterval;
@@ -123,6 +131,12 @@ namespace Tetris {
     void Game::UpdateBlock() {
 
         if (m_OccupyCellOnBoard) return;
+
+        if (m_HardDropTriggered) {
+            m_Block->ExecuteHardDrop();
+            m_OccupyCellOnBoard = true;
+            return;
+        }
 
         bool isValidRotation = false;
         bool isValidPosition = false;
@@ -144,7 +158,7 @@ namespace Tetris {
                 m_Block->MoveBy(m_MovementVector);
                 isValidPosition = true;
                 if (m_MovementVector.y != 0 && m_InputHandler->CanExecuteDown()) {
-                    Notify(GameEvent::Soft_Drop_Step);
+                    Notify({EventType::Soft_Drop_Step});
                 }
             }
         }
@@ -154,6 +168,7 @@ namespace Tetris {
             if (isValidPosition && m_MovementVector.x == 0) return;
             UpdateGhostPosition();
         }
+
         SetBlockHasLandedStatus();
 
         if(m_HasLanded) {

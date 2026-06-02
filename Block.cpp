@@ -31,6 +31,13 @@ namespace Tetris {
         UpdateIndex();
     }
 
+    void Block::ExecuteHardDrop() {
+        for (int i = 0; i < 4; i++) {
+            Vector2Int ghostPosition = m_GhostPositionArr[i];
+            m_PositionArr[i] = ghostPosition;
+        }
+    }
+
     void Block::UpdateCurrentRotationIndex() {
         m_CurrentRotationStateIndex = m_ProspectiveRotationStateIndex;
         m_CornerPosition += m_KickDataPosition;
@@ -105,6 +112,10 @@ namespace Tetris {
 
     std::array<Vector2Int, 4> Block::GetPossibleNextPositionArr() const {
         return m_PossibleNextPositionArr;
+    }
+
+    std::array<Vector2Int, 4> Block::GetGhostPositionArr() const {
+        return m_GhostPositionArr;
     }
 
     std::array<Vector2Int, 4> Block::GetPositionArr() const {

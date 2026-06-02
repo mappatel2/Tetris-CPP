@@ -34,11 +34,13 @@ namespace Tetris {
         void Draw() override;
         ~Block() override = default;
 
+        void ExecuteHardDrop();
         void UpdateNextPosition(Vector2Int inputVector);
         void MoveBy(Vector2Int moveVector);
 
         [[nodiscard]] std::array<Vector2Int, 4> GetPossibleNextPositionArr() const;
         [[nodiscard]] std::array<Vector2Int, 4> GetPositionArr() const;
+        [[nodiscard]] std::array<Vector2Int, 4> GetGhostPositionArr() const;
         [[nodiscard]] Color GetColor() const;
         [[nodiscard]] TetrominoType GetBlockType() const;
         [[nodiscard]] int GetRotationStateIndex() const;

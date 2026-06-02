@@ -44,6 +44,7 @@ namespace Tetris {
         bool m_HasLanded = false;
 
         bool m_OccupyCellOnBoard = false;
+        bool m_HardDropTriggered = false;
 
         int m_LowestRowReached = 100;
 

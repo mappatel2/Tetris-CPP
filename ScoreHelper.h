@@ -8,7 +8,7 @@ namespace Tetris {
     private:
         int m_Score = 0;
     public:
-        void OnNotify(GameEvent event) override;
+        void OnNotify(EventMessage) override;
         [[nodiscard]] int GetScore() const;
     };
 }

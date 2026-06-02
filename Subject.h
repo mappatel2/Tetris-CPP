@@ -25,9 +25,9 @@ namespace Tetris {
         }
 
     protected:
-        void Notify(GameEvent event) const {
+        void Notify(EventMessage eventMsg) const {
             for (auto observer : m_Observers) {
-                observer->OnNotify(event);
+                observer->OnNotify(eventMsg);
             }
         }
     };

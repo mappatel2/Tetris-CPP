@@ -8,7 +8,6 @@ namespace Tetris {
     private:
         int m_Score = 0;
     public:
-        void UpdateScore(int linesCleared);
         void OnNotify(GameEvent event) override;
         [[nodiscard]] int GetScore() const;
     };

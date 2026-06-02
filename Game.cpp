@@ -11,6 +11,7 @@ namespace Tetris {
         m_BlockSpawner = std::make_unique<BlockSpawner>();
         m_PreviewBlockUI = std::make_unique<PreviewBlockUI>();
         m_DebugPanel = std::make_unique<DebugPanelUI>();
+        m_ScorePanelUI = std::make_unique<ScorePanelUI>();
         m_ScoreHelper = std::make_unique<ScoreHelper>();
 
         InitBlock();
@@ -51,6 +52,7 @@ namespace Tetris {
         if (!m_OccupyCellOnBoard) m_Block->Draw();
         m_PreviewBlockUI->Draw(m_BlockSpawner->GetPreviewBag());
         RenderDebugPanel();
+        m_ScorePanelUI->Draw(m_ScoreHelper->GetScore());
     }
 
     void Game::Stop() {

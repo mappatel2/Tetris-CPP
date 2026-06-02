@@ -8,6 +8,7 @@
 #include "PreviewBlockUI.h"
 #include "DebugPanelUI.h"
 #include "ScoreHelper.h"
+#include "ScorePanelUI.h"
 
 namespace Tetris {
     class Game : public Subject{
@@ -17,8 +18,11 @@ namespace Tetris {
         std::unique_ptr<InputHandler> m_InputHandler;
         std::unique_ptr<Block> m_Block;
         std::unique_ptr<BlockSpawner> m_BlockSpawner;
+
         std::unique_ptr<PreviewBlockUI> m_PreviewBlockUI;
         std::unique_ptr<DebugPanelUI> m_DebugPanel;
+        std::unique_ptr<ScorePanelUI> m_ScorePanelUI;
+
         std::unique_ptr<ScoreHelper> m_ScoreHelper;
 
         Vector2Int m_MovementVector{};

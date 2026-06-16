@@ -2,6 +2,8 @@
 #define INPUTHANDLER_H
 
 #include <memory>
+#include <vector>
+
 #include "DasAction.h"
 #include "TriggerAction.h"
 
@@ -16,6 +18,10 @@ namespace Tetris {
         std::unique_ptr<TriggerAction> m_UpMoveAction;
         std::unique_ptr<TriggerAction> m_EnableDebugPanelAction;
         std::unique_ptr<TriggerAction> m_HardDropAction;
+        std::unique_ptr<TriggerAction> m_TriggerGameOverAction;
+        std::unique_ptr<TriggerAction> m_TriggerGameRestartAction;
+
+        std::vector<InputAction*> m_InputActions;
 
     public:
 

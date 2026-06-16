@@ -21,7 +21,7 @@ namespace Tetris {
         explicit DasAction(int keyValue);
 
         void Update() override;
-        bool CanExecute() const override;
+        [[nodiscard]] bool CanExecute() const override;
     };
 }
 

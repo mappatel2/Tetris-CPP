@@ -1,4 +1,5 @@
 #include "GameOverState.h"
+#include "TetrisCore.h"
 
 namespace Tetris {
     GameOverState::GameOverState(Game* game, InputHandler* inputHandler) {
@@ -11,7 +12,7 @@ namespace Tetris {
     }
 
     void GameOverState::Draw() {
-
+        DrawRectangle(0, 0, Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT, Color(0, 0, 0, 175));
     }
 
     void GameOverState::HandleInput() {

@@ -5,6 +5,6 @@ namespace Tetris {
     public:
         virtual ~InputAction() = default;
         virtual void Update() = 0;
-        virtual bool CanExecute() const = 0;
+        [[nodiscard]] virtual bool CanExecute() const = 0;
     };
 }

@@ -85,6 +85,11 @@ namespace Tetris {
         m_HasLandedTimer = 0.F;
         m_LowestRowReached = -1;
 
+        if (!m_Board->IsValidPosition(m_Block->GetPositionArr())) {
+            m_Game->ChangeGameState(GameState::GameOver);
+            return;
+        }
+
         UpdateGhostPosition();
     }
 

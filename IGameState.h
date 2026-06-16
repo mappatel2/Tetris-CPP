@@ -1,0 +1,14 @@
+#ifndef TETRIS_IGAMESTATE_H
+#define TETRIS_IGAMESTATE_H
+
+namespace Tetris {
+    class IGameState {
+    public:
+        virtual void HandleInput() = 0;
+        virtual void Update() = 0;
+        virtual void Draw() = 0;
+        virtual ~IGameState();
+    };
+}
+
+#endif //TETRIS_IGAMESTATE_H

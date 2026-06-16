@@ -39,7 +39,12 @@ add_executable(Tetris main.cpp
         Observer.h
         Subject.h
         ScorePanelUI.cpp
-        ScorePanelUI.h)
+        ScorePanelUI.h
+        IGameState.h
+        GamePlayingState.cpp
+        GamePlayingState.h
+        GameOverState.cpp
+        GameOverState.h)
 
 target_include_directories(Tetris PRIVATE raylib/src)
 target_link_libraries(Tetris PRIVATE raylib_static)

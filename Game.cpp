@@ -30,8 +30,9 @@ namespace Tetris {
     }
 
     void Game::Update() {
-        m_CurrentState->Draw();
+        m_CurrentState->HandleInput();
         m_CurrentState->Update();
+        m_CurrentState->Draw();
     }
 
     void Game::Render() {

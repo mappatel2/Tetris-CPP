@@ -20,6 +20,9 @@ namespace Tetris {
         m_DebugPanel = debugPanel;
 
         this->AddObserver(m_ScoreHelper);
+
+        m_CanSpawn = true;
+        m_SpawnTimer = m_SpawnInterval;
     }
 
     void GamePlayingState::HandleInput() {
@@ -56,10 +59,14 @@ namespace Tetris {
     }
 
     void GamePlayingState::Update() {
-        UpdateGravity();
-        UpdateBlock();
-        UpdateBoard();
-        UpdateSpawnLogic();
+        if (!m_CanSpawn) {
+            UpdateGravity();
+            UpdateBlock();
+            UpdateBoard();
+        }
+        else {
+            UpdateSpawnLogic();
+        }
     }
 
     void GamePlayingState::Draw() {

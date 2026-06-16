@@ -7,11 +7,12 @@
 #include "BlockSpawner.h"
 #include "PreviewBlockUI.h"
 #include "DebugPanelUI.h"
+#include "IGameState.h"
 #include "ScoreHelper.h"
 #include "ScorePanelUI.h"
 
 namespace Tetris {
-    class Game : public Subject{
+    class Game{
     private:
 
         std::unique_ptr<Board> m_Board;
@@ -25,32 +26,12 @@ namespace Tetris {
 
         std::unique_ptr<ScoreHelper> m_ScoreHelper;
 
-        Vector2Int m_MovementVector{};
+        std::array<std::unique_ptr<IGameState>, 2> m_GameStates{};
+        GameState m_GameState = GameState::GameOver;
+        IGameState* m_CurrentState{};
 
-        bool m_WantsToRotate = false;
-
-        float m_MoveDownTimer = 0.f;
-        const float m_MoveDownInterval = 0.8f;
-
-        bool m_CanSpawn = false;
-        float m_SpawnTimer = 0.F;
-        const float m_SpawnInterval = 0.5F;
-
-        const int m_LockResetLimit = 15;
-        int m_LockResets = 0;
-
-        float m_HasLandedTimer = 0.f;
-        const float m_HasLandedInterval = 0.7F;
-        bool m_HasLanded = false;
-
-        bool m_OccupyCellOnBoard = false;
-        bool m_HardDropTriggered = false;
-
-        int m_LowestRowReached = 100;
-
-        bool m_EnableDebugPanel = false;
-
-        GameState m_GameState = GameState::Pause;
+    private:
+        void InitGameStates();
 
     public:
         Game();
@@ -58,20 +39,6 @@ namespace Tetris {
         void Update();
         void Render();
         void Stop();
-
-    private:
-
-        void InitBlock();
-        void UpdateSpawnLogic();
-        void HandlePlayingInput();
-        void HandleGameOverInput();
-        void UpdateGravity();
-        void UpdateBlock();
-        void SetBlockHasLandedStatus();
-        void UpdateBoard();
-        void UpdateLowestRowReached();
-        void UpdateGhostPosition() const;
-        void RenderDebugPanel() const;
-
+        void ChangeGameState(GameState newGameState);
     };
 }

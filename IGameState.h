@@ -7,7 +7,7 @@ namespace Tetris {
         virtual void HandleInput() = 0;
         virtual void Update() = 0;
         virtual void Draw() = 0;
-        virtual ~IGameState();
+        virtual ~IGameState() = default;
     };
 }
 

@@ -9,10 +9,8 @@ namespace Tetris {
     };
 
     enum class GameState {
-        Pause,
         Playing,
-        GameOver,
-        Restart
+        GameOver
     };
 
     inline const char* ToString(const TetrominoType type) {

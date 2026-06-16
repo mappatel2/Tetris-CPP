@@ -21,6 +21,8 @@ namespace Tetris {
         this->AddObserver(m_ScoreHelper.get());
 
         m_CanSpawn = false;
+
+        m_GameState = GameState::Playing;
     }
 
     void Game::Run() {
@@ -29,23 +31,22 @@ namespace Tetris {
     }
 
     void Game::Update() {
-        if(m_CanSpawn) {
-            if(m_SpawnTimer >= m_SpawnInterval) {
-                m_SpawnTimer = 0.F;
-                m_CanSpawn = false;
-                InitBlock();
-            }
-            else {
-                m_SpawnTimer += GetFrameTime();
-            }
+        switch (m_GameState) {
+            case GameState::Playing:
+                UpdateSpawnLogic();
+                if (m_CanSpawn) return;
 
-            return;
+                HandlePlayingInput();
+                UpdateGravity();
+                UpdateBlock();
+                UpdateBoard();
+                break;
+            case GameState::GameOver:
+                HandleGameOverInput();
+                break;
+            default:
+                break;
         }
-
-        UpdateInput();
-        UpdateGravity();
-        UpdateBlock();
-        UpdateBoard();
     }
 
     void Game::Render() {
@@ -79,7 +80,20 @@ namespace Tetris {
         UpdateGhostPosition();
     }
 
-    void Game::UpdateInput() {
+    void Game::UpdateSpawnLogic() {
+        if (!m_CanSpawn) return;
+
+        if(m_SpawnTimer >= m_SpawnInterval) {
+            m_SpawnTimer = 0.F;
+            m_CanSpawn = false;
+            InitBlock();
+        }
+        else {
+            m_SpawnTimer += GetFrameTime();
+        }
+    }
+
+    void Game::HandlePlayingInput() {
         m_MovementVector.x = 0;
         m_MovementVector.y = 0;
         m_WantsToRotate = false;

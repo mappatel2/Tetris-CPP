@@ -8,6 +8,13 @@ namespace Tetris {
         I, J, L, O, S, T, Z
     };
 
+    enum class GameState {
+        Pause,
+        Playing,
+        GameOver,
+        Restart
+    };
+
     inline const char* ToString(const TetrominoType type) {
         switch (type) {
             case TetrominoType::I: return "I";

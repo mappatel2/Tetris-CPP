@@ -50,6 +50,8 @@ namespace Tetris {
 
         bool m_EnableDebugPanel = false;
 
+        GameState m_GameState = GameState::Pause;
+
     public:
         Game();
         void Run();
@@ -60,7 +62,9 @@ namespace Tetris {
     private:
 
         void InitBlock();
-        void UpdateInput();
+        void UpdateSpawnLogic();
+        void HandlePlayingInput();
+        void HandleGameOverInput();
         void UpdateGravity();
         void UpdateBlock();
         void SetBlockHasLandedStatus();

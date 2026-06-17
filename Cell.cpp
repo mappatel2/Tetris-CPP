@@ -21,6 +21,11 @@ namespace Tetris {
             Config::CELL_SIZE, Config::CELL_SIZE, m_OutlineColor);
     }
 
+    void Cell::Reset() {
+        m_IsOccupied = false;
+        m_RectColor = ColorAlpha(BLACK, 0);
+    }
+
     void Cell::SetOccupiedStatus(bool status, const Color occupiedColor) {
         m_RectColor = occupiedColor;
         m_IsOccupied = status;

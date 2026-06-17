@@ -23,6 +23,10 @@ namespace Tetris {
     }
 
     void GamePlayingState::OnEnter() {
+        m_Board->Reset();
+        m_BlockSpawner->Reset();
+        m_ScoreHelper->Reset();
+
         m_CanSpawn = true;
         m_SpawnTimer = m_SpawnInterval;
     }
@@ -36,8 +40,6 @@ namespace Tetris {
         m_MovementVector.y = 0;
         m_WantsToRotate = false;
         m_HardDropTriggered = false;
-
-        m_InputHandler->Update();
 
         if (m_InputHandler->CanTriggerGameOver()) {
             std::cout << "Game Over Triggered" << std::endl;

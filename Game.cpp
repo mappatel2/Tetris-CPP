@@ -30,6 +30,7 @@ namespace Tetris {
     }
 
     void Game::Update() {
+        m_InputHandler->Update();
         m_GameStatesStack.top()->HandleInput();
         m_GameStatesStack.top()->Update();
         m_GameStatesStack.top()->Draw();

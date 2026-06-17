@@ -9,6 +9,10 @@ namespace Tetris {
         }
     }
 
+    void BlockSpawner::Reset() {
+        ShuffleTetrisBlockBag();
+    }
+
     int BlockSpawner::GetBlockFromShuffledBag() {
         if(m_CurrentShuffledBlockIndex >= m_Bag.size()) {
             ShuffleTetrisBlockBag();

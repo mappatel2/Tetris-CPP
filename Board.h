@@ -33,11 +33,13 @@ namespace Tetris {
         [[nodiscard]] bool IsValidPosition(const std::array<Vector2Int, 4>& nextPossiblePositions) const;
         void SetCellAsOccupied(const Vector2Int& position, Color color) const;
         void ClearRows() const;
+        void Reset();
 
         static bool CheckIfValidRowIndex(int rowIndex);
         static bool CheckIfValidColumnIndex(int colIndex);
 
     private:
+
         [[nodiscard]] bool CheckIfRowIsFull(int rowIndex) const;
     };
 }

@@ -30,4 +30,8 @@ namespace Tetris {
         }
         m_Score += basePoints;
     }
+
+    void ScoreHelper::Reset() {
+        m_Score = 0;
+    }
 }

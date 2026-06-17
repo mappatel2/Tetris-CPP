@@ -39,6 +39,14 @@ namespace Tetris {
         }
     }
 
+    void Board::Reset() {
+        for(int i = 0; i < m_Cells.size(); i++) {
+            for(int j = 0; j < m_Cells[i].size(); j++) {
+                m_Cells[i][j]->Reset();
+            }
+        }
+    }
+
     void Board::SetCellAsOccupied(const Vector2Int& position, Color color) const {
         int rowIndex = GridConfig::GetRowIndexFromPosition(position.y);
         int colIndex = GridConfig::GetColumnIndexFromPosition(position.x);

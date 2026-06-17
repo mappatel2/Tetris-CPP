@@ -26,9 +26,10 @@ namespace Tetris {
         void Draw() override;
         ~Cell() override = default;
 
+        void Reset();
         void SetOccupiedStatus(bool status, Color occupiedColor);
-        bool GetOccupiedStatus() const;
-        Color GetRectColor() const;
+        [[nodiscard]] bool GetOccupiedStatus() const;
+        [[nodiscard]] Color GetRectColor() const;
     };
 }
 

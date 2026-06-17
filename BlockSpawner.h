@@ -15,6 +15,7 @@ namespace Tetris {
     public:
 
         BlockSpawner();
+        void Reset();
         [[nodiscard]] std::array<int, 4> GetPreviewBag() const;
         [[nodiscard]] TetrominoType GetTetrisBlock();
 

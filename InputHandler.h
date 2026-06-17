@@ -52,6 +52,14 @@ namespace Tetris {
         [[nodiscard]] bool CanExecuteHardDrop() const {
             return m_HardDropAction->CanExecute();
         }
+
+        [[nodiscard]] bool CanTriggerGameOver() const {
+            return m_TriggerGameOverAction->CanExecute();
+        }
+
+        [[nodiscard]] bool CanTriggerGameRestart() const {
+            return m_TriggerGameRestartAction->CanExecute();
+        }
     };
 
 

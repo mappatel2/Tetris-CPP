@@ -1,6 +1,8 @@
 #pragma once
 
 #include <memory>
+#include <stack>
+
 #include "Board.h"
 #include "InputHandler.h"
 #include "Block.h"
@@ -27,8 +29,7 @@ namespace Tetris {
         std::unique_ptr<ScoreHelper> m_ScoreHelper;
 
         std::array<std::unique_ptr<IGameState>, 2> m_GameStates{};
-        GameState m_GameState = GameState::GameOver;
-        IGameState* m_CurrentState{};
+        std::stack<IGameState*> m_GameStatesStack {};
 
     private:
         void InitGameStates();
@@ -39,6 +40,10 @@ namespace Tetris {
         void Update();
         void Render();
         void Stop();
-        void ChangeGameState(GameState newGameState);
+
+        void PushGameState(GameState newGameState);
+        void PopAndPushGameState(GameState newGameState);
+        void PopGameState();
+        void ClearGameStateStack();
     };
 }

@@ -11,8 +11,12 @@ namespace Tetris {
         Game* m_Game;
         InputHandler* m_InputHandler;
     public:
+
         GameOverState() = delete;
         GameOverState(Game*, InputHandler*);
+
+        void OnEnter() override;
+        void OnExit() override;
         void Update() override;
         void HandleInput() override;
         void Draw() override;

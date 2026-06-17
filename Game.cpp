@@ -1,6 +1,6 @@
-#include "Game.h"
 #include <iostream>
 
+#include "Game.h"
 #include "GameOverState.h"
 #include "GamePlayingState.h"
 #include "InputHandler.h"
@@ -21,7 +21,7 @@ namespace Tetris {
         m_Block->AddObserver(m_ScoreHelper.get());
 
         InitGameStates();
-        ChangeGameState(GameState::Playing);
+        PushGameState(GameState::Playing);
     }
 
     void Game::Run() {
@@ -30,22 +30,22 @@ namespace Tetris {
     }
 
     void Game::Update() {
-        m_CurrentState->HandleInput();
-        m_CurrentState->Update();
-        m_CurrentState->Draw();
+        m_GameStatesStack.top()->HandleInput();
+        m_GameStatesStack.top()->Update();
+        m_GameStatesStack.top()->Draw();
     }
 
     void Game::Render() {
         m_Board->Draw();
         m_PreviewBlockUI->Draw(m_BlockSpawner->GetPreviewBag());
         m_ScorePanelUI->Draw(m_ScoreHelper->GetScore());
-        m_CurrentState->Draw();
+        m_GameStatesStack.top()->Draw();
     }
 
     void Game::Stop() {
         m_Board->RemoveObserver(m_ScoreHelper.get());
         m_Block->RemoveObserver(m_ScoreHelper.get());
-        m_CurrentState = nullptr;
+        ClearGameStateStack();
         std::cout << "Stopping Game, Call Destroy Functions for Entities\n";
     }
 
@@ -56,9 +56,28 @@ namespace Tetris {
         m_GameStates[static_cast<int>(GameState::GameOver)] = std::make_unique<GameOverState>(this, m_InputHandler.get());
     }
 
-    void Game::ChangeGameState(GameState newGameState) {
+    void Game::PushGameState(GameState newGameState) {
         IGameState* gameState = m_GameStates[static_cast<int>(newGameState)].get();
         if (gameState == nullptr) return;
-        m_CurrentState = gameState;
+        gameState->OnEnter();
+        m_GameStatesStack.push(gameState);
+    }
+
+    void Game::PopAndPushGameState(GameState newGameState) {
+        PopGameState();
+        PushGameState(newGameState);
+    }
+
+    void Game::PopGameState() {
+        if (m_GameStatesStack.empty()) return;
+        IGameState* gameState = m_GameStatesStack.top();
+        gameState->OnExit();
+        m_GameStatesStack.pop();
+    }
+
+    void Game::ClearGameStateStack() {
+        while (!m_GameStatesStack.empty()) {
+            PopGameState();
+        }
     }
 }

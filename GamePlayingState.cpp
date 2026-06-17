@@ -20,9 +20,15 @@ namespace Tetris {
         m_DebugPanel = debugPanel;
 
         this->AddObserver(m_ScoreHelper);
+    }
 
+    void GamePlayingState::OnEnter() {
         m_CanSpawn = true;
         m_SpawnTimer = m_SpawnInterval;
+    }
+
+    void GamePlayingState::OnExit() {
+
     }
 
     void GamePlayingState::HandleInput() {
@@ -32,6 +38,12 @@ namespace Tetris {
         m_HardDropTriggered = false;
 
         m_InputHandler->Update();
+
+        if (m_InputHandler->CanTriggerGameOver()) {
+            std::cout << "Game Over Triggered" << std::endl;
+            m_Game->PopAndPushGameState(GameState::GameOver);
+            return;
+        }
 
         if (m_InputHandler->CanExecuteEnableDebugPanel()) {
             m_EnableDebugPanel = !m_EnableDebugPanel;
@@ -86,7 +98,7 @@ namespace Tetris {
         m_LowestRowReached = -1;
 
         if (!m_Board->IsValidPosition(m_Block->GetPositionArr())) {
-            m_Game->ChangeGameState(GameState::GameOver);
+            m_Game->PopAndPushGameState(GameState::GameOver);
             return;
         }
 

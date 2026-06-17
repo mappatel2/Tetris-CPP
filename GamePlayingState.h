@@ -57,8 +57,12 @@ namespace Tetris {
         void RenderDebugPanel() const;
 
     public:
+
         GamePlayingState() = delete;
         GamePlayingState(Game*, InputHandler*, BlockSpawner*, Board*, Block*, ScoreHelper*, DebugPanelUI*);
+
+        void OnEnter() override;
+        void OnExit() override;
         void HandleInput() override;
         void Update() override;
         void Draw() override;

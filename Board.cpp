@@ -1,6 +1,7 @@
-#include "Board.h"
 #include <array>
 #include <iostream>
+
+#include "Board.h"
 
 namespace Tetris {
     Board::Board() {
